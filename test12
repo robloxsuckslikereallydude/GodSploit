@@ -1095,9 +1095,9 @@ local function ShootProjectile(Item, Projectile)
 			[1] = Item,
 			[2] = Projectile,
 			[3] = Projectile,
-			[4] = NearestEntity.PrimaryPart.Position + Vector3.new(0, 5, 0),
-			[5] = NearestEntity.PrimaryPart.Position + Vector3.new(0, 5, 0),
-			[6] = Vector3.new(0, -20, 0),
+			[4] = NearestEntity.PrimaryPart.Position + Vector3.new(0, 0, 5),
+			[5] = NearestEntity.PrimaryPart.Position + Vector3.new(0, 0, 5),
+			[6] = Vector3.new(0, -10, 0),
 			[7] = HttpService:GenerateGUID(true),
 			[8] = {["drawDurationSeconds"] = 0.96, ["shotId"] = HttpService:GenerateGUID(false)},
 			[9] = (WorkSpace:GetServerTimeNow() - 0.11)

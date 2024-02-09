@@ -828,6 +828,7 @@ local Camera = WorkSpace.CurrentCamera
 local OrigC0 = ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 
 local BlossomWindTunnelCreateBodyForceRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BlossomWindTunnelCreateBodyForce")
+local HannahPromptTriggerRemote = Client:Get("HannahPromptTrigger")
 local TrinitySetAngelTypeRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SetAngelType")
 local SetObservedChestRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("Inventory/SetObservedChest")
 local ResetCharacterRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ResetCharacter")
@@ -839,7 +840,6 @@ local ClientHandlerStore = require(LocalPlayer.PlayerScripts.TS.ui.store).Client
 local SendMessageRemote = ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
 local DamageBlockRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@easy-games"):WaitForChild("block-engine"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DamageBlock")
 local ProjectileRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ProjectileFire")
-local ElkSummonRemote = ReplicatedStorage:WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("useAbility")
 local PlayAgainRemote = ReplicatedStorage:WaitForChild("events-@easy-games/lobby:shared/event/lobby-events@getEvents.Events")
 local EquipItemRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SetInvItem")
 local GroundHitRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("GroundHit")
@@ -2440,35 +2440,11 @@ task.spawn(function()
 		end)
 
 		task.spawn(function()
-			local HipHeight = 1.99999
+			if IsAlive(LocalPlayer) and Settings.AcDisabler.Value == true then
+				BlossomWindTunnelCreateBodyForceRemote:FireServer()
 
-			if Settings.AcDisabler.Value == true and IsAlive(LocalPlayer) then
-				local Elk = LocalPlayer.Character:FindFirstChild("elk")
-
-				LocalPlayer.Character.Humanoid.HipHeight = HipHeight
 				AnticheatDisabled = true
-
-				if Elk and Elk:FindFirstChild("body_mesh") then
-					Elk:FindFirstChild("body_mesh"):Destroy()
-					Elk.PrimaryPart:Destroy()
-				end
-
-				task.spawn(function()
-					local Args = {
-						[1] = "elk_summon"
-					}
-
-					ElkSummonRemote:FireServer(unpack(Args))
-				end)
-
-				task.spawn(function()
-					BlossomWindTunnelCreateBodyForceRemote:FireServer()
-				end)
-			end
-
-			if Settings.AcDisabler.Value == false or not IsAlive(LocalPlayer) or not LocalPlayer.Character:FindFirstChild("elk") then
-				AnticheatDisabled = false
-			end
+			end			
 		end)
 	until not game
 end)
@@ -3289,6 +3265,50 @@ task.spawn(function()
 					end
 
 					if Settings.HighJump.Value == false then
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+					end
+				end
+			end
+		end)
+	end)
+end)
+
+task.spawn(function()
+	local GodMode, DropDownButton, LayoutOrder, UIGradient = CreateToggle(BlatantTab, "GodMode", Settings.GodMode.Value, function(CallBack)
+		Settings.GodMode.Value = CallBack
+	end)
+
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateKeyBind(BlatantTab, Settings.GodMode.KeyBind, LayoutOrder + 1, function(CallBack)
+					Settings.GodMode.KeyBind = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
+
+	task.spawn(function()
+		UserInputService.InputBegan:Connect(function(Input)
+			if not UserInputService:GetFocusedTextBox() then
+				if Input.KeyCode.Name == Settings.GodMode.KeyBind then
+					Settings.GodMode.Value = not Settings.GodMode.Value
+
+					if Settings.GodMode.Value == true then
+						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
+					end
+
+					if Settings.GodMode.Value == false then
+						FlyValue = false
 						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
 					end
 				end

@@ -74,7 +74,7 @@ Open.BorderColor3 = Color3.new(0, 0, 0)
 Open.BorderSizePixel = 0
 Open.Position = UDim2.new(0.963096738, 0, 0.351765305, 0)
 Open.Size = UDim2.new(0.0329854637, 0, 0.0837961882, 0)
-Open.Image = "rbxassetid://15428841655"
+Open.Image = "rbxassetid://16296007358"
 
 UICorner.CornerRadius = UDim.new(0, 6)
 UICorner.Parent = Open

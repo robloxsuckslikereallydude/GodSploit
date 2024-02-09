@@ -594,9 +594,9 @@ local function CreateFlyHud()
 
 	Background.Name = "Background"
 	Background.Parent = AlSploit
-	Background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Background.BackgroundColor3 = Color3.new(0, 0, 0)
 	Background.BackgroundTransparency = 0.250
-	Background.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Background.BorderColor3 = Color3.new(0, 0, 0)
 	Background.BorderSizePixel = 0
 	Background.Position = UDim2.new(0.41, 0, 0.7, 0)
 	Background.Size = UDim2.new(0.178, 0, 0.085, 0)
@@ -618,15 +618,15 @@ local function CreateFlyHud()
 
 	Text.Name = "Text"
 	Text.Parent = Background
-	Text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Text.BackgroundColor3 = Color3.new(255, 255, 255)
 	Text.BackgroundTransparency = 1.000
-	Text.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Text.BorderColor3 = Color3.new(0, 0, 0)
 	Text.BorderSizePixel = 0
 	Text.Position = UDim2.new(-0.00332811219, 0, 0.510591209, 0)
 	Text.Size = UDim2.new(0.999999762, 0, 0.489407092, 0)
 	Text.Font = Enum.Font.GothamBold
 	Text.Text = "1"
-	Text.TextColor3 = Color3.fromRGB(175, 105, 255)
+	Text.TextColor3 = Color3.new(1, 0.666667, 0)
 	Text.TextScaled = true
 	Text.TextSize = 20.000
 	Text.TextWrapped = true
@@ -636,8 +636,8 @@ local function CreateFlyHud()
 
 	DisplayBackground.Name = "DisplayBackground"
 	DisplayBackground.Parent = Background
-	DisplayBackground.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	DisplayBackground.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	DisplayBackground.BackgroundColor3 = Color3.new(0, 0, 0)
+	DisplayBackground.BorderColor3 = Color3.new(0, 0, 0)
 	DisplayBackground.BorderSizePixel = 0
 	DisplayBackground.Position = UDim2.new(0.228761196, 0, 0.266666889, 0)
 	DisplayBackground.Size = UDim2.new(0.544929683, 0, 0.149570271, 0)
@@ -647,8 +647,8 @@ local function CreateFlyHud()
 
 	Display.Name = "Display"
 	Display.Parent = DisplayBackground
-	Display.BackgroundColor3 = Color3.fromRGB(175, 105, 255)
-	Display.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Display.BackgroundColor3 = Color3.new(1, 0.666667, 0)
+	Display.BorderColor3 = Color3.new(0, 0, 0)
 	Display.BorderSizePixel = 0
 	Display.Position = UDim2.new(0, 0, 0, 0)
 	Display.Size = UDim2.new(0, 0, 1, 0)
@@ -1087,7 +1087,7 @@ local function FindNearestChest(MaxDistance)
 	return NearestChest:FindFirstChild("ChestFolderValue")
 end
 
-function ShootProjectile(Item, Projectile)
+local function ShootProjectile(Item, Projectile)
 	local NearestEntity = FindNearestEntity(math.huge)
 
 	if NearestEntity and not NearestEntity:FindFirstChildOfClass("ForceField") then
@@ -2127,7 +2127,7 @@ task.spawn(function()
 			local Sword = GetSword()
 
 			task.spawn(function()
-				if not NearestEntity then
+				if not NearestEntity and Sword then
 					PlayAnimation(Animations.Neutral)
 				end
 			end)

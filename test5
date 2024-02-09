@@ -1556,7 +1556,7 @@ function GetSpeed()
 		end
 
 		if AnticheatDisabled == true then
-			Speed = Speed + 19
+			Speed = Speed + 5
 		end
 
 		Speed = ((Speed + Settings.Speed.Speed) - 20)
@@ -1583,7 +1583,7 @@ local function HasItem(Name)
 	return nil
 end
 
-function AutoBuy()
+local function AutoBuy()
 	local NearestNpc = FindNearestNpc(30)
 
 	if NearestNpc then		
@@ -1871,16 +1871,6 @@ function IsAlive(Player)
 	return true
 end	
 
-function GetItem(Name)
-	for i, v in next, (GetInventory(LocalPlayer).items) do
-		if v.itemType:find(Name) then
-			return v, i
-		end
-	end	
-
-	return nil
-end
-
 local function SwordHit(Entity, Weapon, NearestEntityDistance)
 	local LocalPlayerHumanoidRootPart = LocalPlayer.Character.HumanoidRootPart
 	local EntityPrimaryPart = Entity.PrimaryPart
@@ -1906,7 +1896,7 @@ local function SwordHit(Entity, Weapon, NearestEntityDistance)
 	end)
 
 	task.spawn(function()
-		if Settings.KillAura.Strafe == true and NearestEntityDistance < (AnticheatDisabled and 16 or 12) then
+		if Settings.KillAura.Strafe == true and NearestEntityDistance < (AnticheatDisabled and 14 or 12) then
 			LocalPlayerHumanoidRootPart.CFrame = CFrame.new(EntityPrimaryPart.Position - EntityPrimaryPart.CFrame.LookVector * 5 + Vector3.new(0, 0, 5))
 		end
 	end)
@@ -2182,7 +2172,7 @@ task.spawn(function()
 				if BestBow and IsAlive(LocalPlayer) and NearestEntityDistance > 18 then
 					if Settings.Aimbot.ToolCheck == true then
 						if HasItem(BestBow.itemType) and HasItem("arrow") then
-							local Bow = GetItem(BestBow.itemType)
+							local Bow = HasItem(BestBow.itemType)
 
 							if Bow then					
 								ShootProjectile(ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild(BestBow.itemType), "arrow")
@@ -2191,9 +2181,9 @@ task.spawn(function()
 					end
 
 					if Settings.Aimbot.ToolCheck == false then
-						local Bow = GetItem(BestBow.itemType)
+						local Bow = HasItem(BestBow.itemType)
 
-						if Bow and GetItem("arrow") then			
+						if Bow and  HasItem("arrow") then			
 							SwitchItem(BestBow.itemType)
 
 							ShootProjectile(ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild(BestBow.itemType), "arrow")
@@ -2202,11 +2192,11 @@ task.spawn(function()
 				end
 
 				if not BestBow and IsAlive(LocalPlayer) then
-					if GetItem("fireball") then
+					if HasItem("fireball") then
 						ShootProjectile(ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild("fireball"), "fireball")
 					end
 
-					if GetItem("snowball") then
+					if HasItem("snowball") then
 						ShootProjectile(ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild("snowball"), "snowball")
 					end
 				end

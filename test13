@@ -1095,9 +1095,9 @@ local function ShootProjectile(Item, Projectile)
 			[1] = Item,
 			[2] = Projectile,
 			[3] = Projectile,
-			[4] = NearestEntity.PrimaryPart.Position + Vector3.new(0, 0, 5),
-			[5] = NearestEntity.PrimaryPart.Position + Vector3.new(0, 0, 5),
-			[6] = Vector3.new(0, -10, 0),
+			[4] = (NearestEntity:FinFirstChild("Head").Position or NearestEntity.PrimaryPart.Position),
+			[5] = (NearestEntity:FinFirstChild("Head").Position or NearestEntity.PrimaryPart.Position),
+			[6] = Vector3.new(0, (NearestEntity:FinFirstChild("Head").Position and -10 or -25), 0),
 			[7] = HttpService:GenerateGUID(true),
 			[8] = {["drawDurationSeconds"] = 0.96, ["shotId"] = HttpService:GenerateGUID(false)},
 			[9] = (WorkSpace:GetServerTimeNow() - 0.11)
@@ -1890,7 +1890,7 @@ local function SwordHit(Entity, Weapon, NearestEntityDistance)
 	end)
 
 	task.spawn(function()
-		if Settings.KillAura.Strafe == true and NearestEntityDistance < 12 then
+		if Settings.KillAura.Strafe == true and NearestEntityDistance < 10 then
 			LocalPlayerHumanoidRootPart.CFrame = CFrame.new(EntityPrimaryPart.Position - EntityPrimaryPart.CFrame.LookVector * 5 + Vector3.new(0, 0, 5))
 		end
 	end)

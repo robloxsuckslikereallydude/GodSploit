@@ -2194,7 +2194,7 @@ task.spawn(function()
 						local Bow = GetItem(BestBow.itemType)
 
 						if Bow and GetItem("arrow") then			
-							SwitchItem(BestBow.tool)
+							SwitchItem(BestBow.itemType)
 
 							ShootProjectile(ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild(BestBow.itemType), "arrow")
 						end

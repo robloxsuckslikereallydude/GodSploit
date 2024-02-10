@@ -694,7 +694,7 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "Testing"
+local SaveFileName = "GodSploitBeta"
 
 local function CreateSettingsFile()
 	local DefaultSetting = {Properties = {Value = false}}
@@ -740,7 +740,7 @@ local function CreateSettingsFile()
 		Cape = {KeyBind = "..."},
 		Fly = {KeyBind = "..."},
 		Esp = {KeyBind = "..."},
-		Fov = {Fov = 100}
+		Fov = {Fov = 100, KeyBind = "..."}
 	}
 	
 	task.spawn(function()
@@ -3526,6 +3526,12 @@ task.spawn(function()
 			if Settings.Fly.Value == true then
 				FlyValue = true
 				FlyMe()
+			end
+		end)
+		
+		task.spawn(function()
+			if Settings.Fly.Value == false then
+				FlyValue = false
 			end
 		end)
 	end)

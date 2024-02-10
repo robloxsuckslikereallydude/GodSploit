@@ -5034,17 +5034,3 @@ task.spawn(function()
 		setfpscap(999)
 	end)
 end)
-
-repeat
-	task.wait()
-	
-	for i, v in next, game.Players:GetPlayers() do
-		local args = {
-			[1] = {
-				["player"] = v
-			}
-		}
-
-		game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DragonBreath"):FireServer(unpack(args))
-	end	
-until not game

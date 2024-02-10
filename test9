@@ -694,72 +694,76 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "Test"
+local SaveFileName = "Testing"
 
 local function CreateSettingsFile()
-	local DefaultSetting = {Properties = {Value = false, KeyBind = "..."}}
+	local DefaultSetting = {Properties = {Value = false}}
 	
 	local MetaTable = {__index, DefaultSetting.Properties}
 	
 	Settings = {
-		NoPlacementCps = {},
-		ChestStealer = {Range = 30},
-		InfiniteJump = {},
-		AutoClicker = {Cps = 30},
-		NoKnockBack = {},	
-		InfiniteFly = {},
-		DamageBoost = {},
-		ChatSpammer = {Speed = 50},
-		AcDisabler = {},
-		FpsBooster = {},
-		Indicators = {},
-		AutoReport = {},
-		AntiStaff = {Kick = false},
-		AutoToxic = {},
-		GalaxySky = {},
-		PlayAgain = {},
-		Invisible = {},
-		AimAssist = {Range = 18},
-		Scaffold = {ExpandDistance = 2},
-		KillAura = {Range = 20, CustomAnimation = true, ToolCheck = false, Strafe = false},
-		AntiVoid = {Transparency = 0.65},
-		AutoBank = {Range = 30},
-		HighJump = {},
-		PlayerTp = {},
-		AutoKit = {},
-		AutoBuy = {},
-		GodMode = {},
-		Sprint = {},
-		NoFall = {},
-		Aimbot = {ToolCheck = false},
-		Speed = {Speed = 23},
-		Reach = {},
-		Nuker = {Range = 30, BreakOres = true},
-		BedTp = {},
-		Sigma = {},
-		Cape = {},
-		Fly = {},
-		Esp = {},
+		NoPlacementCps = {KeyBind = "..."},
+		ChestStealer = {Range = 30, KeyBind = "..."},
+		InfiniteJump = {KeyBind = "..."},
+		AutoClicker = {Cps = 30, KeyBind = "..."},
+		NoKnockBack = {KeyBind = "..."},	
+		InfiniteFly = {KeyBind = "..."},
+		DamageBoost = {KeyBind = "..."},
+		ChatSpammer = {Speed = 50, KeyBind = "..."},
+		AcDisabler = {KeyBind = "..."},
+		FpsBooster = {KeyBind = "..."},
+		Indicators = {KeyBind = "..."},
+		AutoReport = {KeyBind = "..."},
+		AntiStaff = {Kick = false, KeyBind = "..."},
+		AutoToxic = {KeyBind = "..."},
+		GalaxySky = {KeyBind = "..."},
+		PlayAgain = {KeyBind = "..."},
+		Invisible = {KeyBind = "..."},
+		AimAssist = {Range = 18, KeyBind = "..."},
+		Scaffold = {ExpandDistance = 2, KeyBind = "..."},
+		KillAura = {Range = 20, CustomAnimation = true, ToolCheck = false, Strafe = false, KeyBind = "..."},
+		AntiVoid = {Transparency = 0.65, KeyBind = "..."},
+		AutoBank = {Range = 30, KeyBind = "..."},
+		HighJump = {KeyBind = "..."},
+		PlayerTp = {KeyBind = "..."},
+		AutoKit = {KeyBind = "..."},
+		AutoBuy = {KeyBind = "..."},
+		GodMode = {KeyBind = "..."},
+		Sprint = {KeyBind = "..."},
+		NoFall = {KeyBind = "..."},
+		Aimbot = {ToolCheck = false, KeyBind = "..."},
+		Speed = {Speed = 23, KeyBind = "..."},
+		Reach = {KeyBind = "..."},
+		Nuker = {Range = 30, BreakOres = true, KeyBind = "..."},
+		BedTp = {KeyBind = "..."},
+		Sigma = {KeyBind = "..."},
+		Cape = {KeyBind = "..."},
+		Fly = {KeyBind = "..."},
+		Esp = {KeyBind = "..."},
 		Fov = {Fov = 100}
 	}
 	
-	for i, v in next, Settings do
-		setmetatable(v, MetaTable)
-	end
+	task.spawn(function()
+		for i, v in next, Settings do
+			setmetatable(v, MetaTable)
+		end
+	end)
 	
-	if not (writefile or makefolder or readfile or isfile) then
-		CreateNotification(5, "Your executor does not support saving.")
+	task.spawn(function()
+		if not (writefile or makefolder or readfile or isfile) then
+			CreateNotification(5, "Your executor does not support saving.")
 
-		Loaded = true
-	end
+			Loaded = true
+		end
 
-	if writefile and makefolder and readfile and isfile then 
-		makefolder("AlSploitBedwarsConfigSaving")
+		if writefile and makefolder and readfile and isfile then 
+			makefolder("AlSploitBedwarsConfigSaving")
 
-		local JSONEncodeSettings = HttpService:JSONEncode(Settings)
+			local JSONEncodeSettings = HttpService:JSONEncode(Settings)
 
-		writefile("AlSploitBedwarsConfigSaving/" .. SaveFileName, JSONEncodeSettings)	
-	end
+			writefile("AlSploitBedwarsConfigSaving/" .. SaveFileName, JSONEncodeSettings)	
+		end
+	end)	
 end
 
 local function CheckFirstTime()

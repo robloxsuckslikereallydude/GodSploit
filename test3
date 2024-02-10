@@ -3203,50 +3203,6 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-	local GodMode, DropDownButton, LayoutOrder, UIGradient = CreateToggle(BlatantTab, "GodMode", Settings.GodMode.Value, function(CallBack)
-		Settings.GodMode.Value = CallBack
-	end)
-
-	task.spawn(function()
-		local InstanceUI
-		local Value = false
-
-		DropDownButton.Activated:Connect(function()
-			Value = not Value
-
-			if Value == true then
-				InstanceUI = CreateKeyBind(BlatantTab, Settings.GodMode.KeyBind, LayoutOrder + 1, function(CallBack)
-					Settings.GodMode.KeyBind = CallBack
-				end)
-			end
-
-			if Value == false then
-				InstanceUI:Destroy()
-			end
-		end)
-	end)
-
-	task.spawn(function()
-		UserInputService.InputBegan:Connect(function(Input)
-			if not UserInputService:GetFocusedTextBox() then
-				if Input.KeyCode.Name == Settings.GodMode.KeyBind then
-					Settings.GodMode.Value = not Settings.GodMode.Value
-
-					if Settings.GodMode.Value == true then
-						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
-					end
-
-					if Settings.GodMode.Value == false then
-						FlyValue = false
-						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
-					end
-				end
-			end
-		end)
-	end)
-end)
-
-task.spawn(function()
 	local Invisible, DropDownButton, LayoutOrder, UIGradient = CreateToggle(BlatantTab, "Invisible", Settings.Invisible.Value, function(CallBack)
 		Settings.Invisible.Value = CallBack
 

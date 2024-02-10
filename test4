@@ -694,11 +694,15 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "SavingSystemAlSploit"
+local SaveFileName = "GodsSploitSavingSystem"
 
 local function CreateSettingsFile()
+	local DefaultSetting = {Properties = {Value = false, KeyBing = "..."}}
+	
+	local MetaTable = {__index, DefaultSetting.Properties}
+	
 	Settings = {
-		NoPlacementCps = {Value = true, KeyBind = "..."},
+		NoPlacementCps = {},
 		ChestStealer = {Value = true, Range = 30, KeyBind = "..."},
 		InfiniteJump = {Value = true, KeyBind = "..."},
 		AutoClicker = {Value = true, Cps = 30, KeyBind = "..."},
@@ -738,6 +742,8 @@ local function CreateSettingsFile()
 		Esp = {Value = true, KeyBind = "..."},
 		Fov = {Value = false, Fov = 100, KeyBind = "..."}
 	}
+	
+	setmetatable(Settings.NoPlacementCps, MetaTable)
 
 	if not (writefile or makefolder or readfile or isfile) then
 		CreateNotification(5, "Your executor does not support saving.")

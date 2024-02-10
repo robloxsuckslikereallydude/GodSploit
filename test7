@@ -694,7 +694,7 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "GodssSploitSavingSystem"
+local SaveFileName = "Rest"
 
 local function CreateSettingsFile()
 	local DefaultSetting = {Properties = {Value = false, KeyBing = "..."}}
@@ -732,7 +732,7 @@ local function CreateSettingsFile()
 		Sprint = {},
 		NoFall = {},
 		Aimbot = {ToolCheck = false},
-		Speed = {Value = true, Speed = 23},
+		Speed = {Speed = 23},
 		Reach = {},
 		Nuker = {Range = 30, BreakOres = true},
 		BedTp = {},

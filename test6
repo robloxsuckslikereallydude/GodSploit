@@ -694,7 +694,7 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "GodsSploitSavingSystem"
+local SaveFileName = "GodssSploitSavingSystem"
 
 local function CreateSettingsFile()
 	local DefaultSetting = {Properties = {Value = false, KeyBing = "..."}}

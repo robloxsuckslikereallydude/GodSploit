@@ -694,10 +694,10 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "Rest"
+local SaveFileName = "Test"
 
 local function CreateSettingsFile()
-	local DefaultSetting = {Properties = {Value = false, KeyBing = "..."}}
+	local DefaultSetting = {Properties = {Value = false, KeyBind = "..."}}
 	
 	local MetaTable = {__index, DefaultSetting.Properties}
 	

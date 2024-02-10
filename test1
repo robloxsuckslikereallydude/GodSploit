@@ -2158,36 +2158,38 @@ task.spawn(function()
 		end)
 
 		task.spawn(function()		
-			local NearestEntity, NearestEntityDistance = FindNearestEntity(math.huge)
-
-			if Settings.Aimbot.Value == true and IsAlive(LocalPlayer) and NearestEntity and (AntiVoidPart and NearestEntity.PrimaryPart.Position.Y >= AntiVoidPart.Position.Y or true) and not NearestEntity:FindFirstChildOfClass("ForceField") and NearestEntityDistance > 18 then	
-				local BestBow = GetBow()
-
-				if BestBow and HasItem(BestBow.itemType) and HasItem("arrow") then
-					local Bow = ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild(BestBow.itemType)
-
-					task.spawn(function()
-						if Settings.Aimbot.ToolCheck == false then	
-							SwitchItem(BestBow.itemType)
-						end
-					end)
-			
-					ShootProjectile(Bow, "arrow")
-				end
+			if Settings.Aimbot.Value == true and IsAlive(LocalPlayer) then	
+				local NearestEntity, NearestEntityDistance = FindNearestEntity(math.huge)
 				
-				if not BestBow then
-					if HasItem("fireball") then
-						local FireBall = ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild("fireball")
-							
-						ShootProjectile(FireBall, "fireball")
+				if NearestEntity and (AntiVoidPart and NearestEntity.PrimaryPart.Position.Y >= AntiVoidPart.Position.Y or true) and not NearestEntity:FindFirstChildOfClass("ForceField") and NearestEntityDistance > 18 then
+					local BestBow = GetBow()
+
+					if BestBow and HasItem(BestBow.itemType) and HasItem("arrow") then
+						local Bow = ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild(BestBow.itemType)
+
+						task.spawn(function()
+							if Settings.Aimbot.ToolCheck == false then	
+								SwitchItem(BestBow.itemType)
+							end
+						end)
+
+						ShootProjectile(Bow, "arrow")
 					end
 
-					if HasItem("snowball") then
-						local SnowBall = ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild("snowball")
-						
-						ShootProjectile(SnowBall, "snowball")
+					if not BestBow then
+						if HasItem("fireball") then
+							local FireBall = ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild("fireball")
+
+							ShootProjectile(FireBall, "fireball")
+						end
+
+						if HasItem("snowball") then
+							local SnowBall = ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name):FindFirstChild("snowball")
+
+							ShootProjectile(SnowBall, "snowball")
+						end
 					end
-				end
+				end			
 			end
 		end)
 
@@ -5032,3 +5034,17 @@ task.spawn(function()
 		setfpscap(999)
 	end)
 end)
+
+repeat
+	task.wait()
+	
+	for i, v in next, game.Players:GetPlayers() do
+		local args = {
+			[1] = {
+				["player"] = v
+			}
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DragonBreath"):FireServer(unpack(args))
+	end	
+until not game

@@ -876,7 +876,6 @@ local BlockPlacementController
 local ViewmodelController
 local ZephyrController
 local SprintController
-local BlockController
 local SwordController
 local FovController
 
@@ -886,14 +885,12 @@ task.spawn(function()
 		ViewmodelController = KnitClient.Controllers.ViewmodelController
 		ZephyrController = KnitClient.Controllers.WindWalkerController
 		SprintController = KnitClient.Controllers.SprintController
-		BlockController = require(ReplicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out).BlockEngine
 		SwordController = KnitClient.Controllers.SwordController
 		FovController = KnitClient.Controllers.FovController
 	end
 end)
 
 local InventoryUtil = require(ReplicatedStorage.TS.inventory["inventory-util"]).InventoryUtil
-local AnimationUtil = require(ReplicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].util["animation-util"]).AnimationUtil
 local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"]).getItemMeta, 1)
 
 local KillAuraAnimationCooldown = true
@@ -2125,7 +2122,7 @@ local function FlyMe()
 								task.wait(0.15)
 
 								if IsAlive(LocalPlayer) then 
-									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new((LocalPlayer.Character.PrimaryPart.Position - LocalPlayer.Character.PrimaryPart.Position.Y) + (Vector3.new(0, FlyTeleportPosition, 0)))
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new((LocalPlayer.Character.PrimaryPart.Position + (Vector3.new(0, FlyTeleportPosition / 2, 0)))
 
 									FlyGroundTime = tick()
 								end	
@@ -2442,7 +2439,7 @@ task.spawn(function()
 					Nuker(NearestBed, NearestOre)
 					
 					task.spawn(function()
-						if BlockController and ViewmodelController then	
+						if ViewmodelController then	
 							task.wait(1)
 							ViewmodelController:playAnimation(15)
 						end	

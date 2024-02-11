@@ -895,6 +895,7 @@ local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"
 
 local KillAuraAnimationCooldown = true
 local NearestEntityFound = false
+local CanViewNearestBed = false
 local InfiniteFlyValue = false
 local FlyBodyVelocity = nil
 local NearestBedFound = false
@@ -930,7 +931,7 @@ local function CollectEnderChestItems()
 	local EnderChest = ReplicatedStorage.Inventories:FindFirstChild(LocalPlayer.Name .. "_personal")
 
 	for i, v in next, EnderChest:GetChildren() do
-		if v:IsA("Accessory") and (v.Name == "emerald" or v.Name == "iron" or v.Name == "diamond" or v.Name == "gold") then
+		if v:IsA("Accessory") and (v.Name == "emerald" or v.Name == "iron" or v.Name == "diamond" or v.Name == "gold" or v.Name == "void_crystal") then
 			ChestGetItemRemote:InvokeServer(EnderChest, v)
 		end
 	end
@@ -942,7 +943,7 @@ local function SecureEnderChestItems()
 
 	if Inventory then
 		for i, v in next, Inventory:GetChildren() do
-			if v:IsA("Accessory") and (v.Name == "emerald" or v.Name == "iron" or v.Name == "diamond" or v.Name == "gold") then
+			if v:IsA("Accessory") and (v.Name == "emerald" or v.Name == "iron" or v.Name == "diamond" or v.Name == "gold" or v.Name == "void_crystal") then
 				ChestGiveItemRemote:InvokeServer(EnderChest, v)
 			end
 		end
@@ -1594,7 +1595,7 @@ local function HasItem(Name)
 end
 
 local function AutoBuy()
-	local NearestNpc = FindNearestNpc(30)
+	local NearestNpc = FindNearestNpc(40)
 
 	if NearestNpc then		
 		local Wool = {
@@ -1726,7 +1727,25 @@ local function AutoBuy()
 					["category"] = "Combat",
 					["lockAfterPurchase"] = true
 				},
-				["shopId"] = "1_item_shop"
+				["shopId"] = NearestNpc.Name
+			}
+		}
+		
+		local VoidSword = {
+			[1] = {
+				["shopItem"] = {
+					["currency"] = "void_crystal",
+					["itemType"] = "void_sword",
+					["amount"] = 1,
+					["price"] = 10,
+					["category"] = "Void",
+					["ignoredByKit"] = {
+						[1] = "barbarian",
+						[2] = "dasher"
+					},
+					["lockAfterPurchase"] = true
+				},
+				["shopId"] = NearestNpc.Name
 			}
 		}
 
@@ -1751,7 +1770,7 @@ local function AutoBuy()
 					["category"] = "Combat",
 					["lockAfterPurchase"] = true
 				},
-				["shopId"] = "1_item_shop"
+				["shopId"] = NearestNpc.Name
 			}
 		}
 
@@ -1776,7 +1795,7 @@ local function AutoBuy()
 					["category"] = "Combat",
 					["lockAfterPurchase"] = true
 				},
-				["shopId"] = "1_item_shop"
+				["shopId"] = NearestNpc.Name
 			}
 		}
 
@@ -1801,7 +1820,7 @@ local function AutoBuy()
 					["category"] = "Combat",
 					["lockAfterPurchase"] = true
 				},
-				["shopId"] = "1_item_shop"
+				["shopId"] = NearestNpc.Name
 			}
 		}
 
@@ -1821,6 +1840,8 @@ local function AutoBuy()
 			if HasItem("wood_sword") then
 				PurchaseItem(StoneSword)
 			end
+			
+			PurchaseItem(VoidSword)
 		end)
 
 		task.spawn(function()
@@ -2045,6 +2066,10 @@ local function Nuker(NearestBed, NearestOre)
 				})
 			end
 		end
+		
+		task.spawn(function()
+			CanViewNearestBed = Camera:WorldToScreenPoint(NearestBed.Position)
+		end)
 	end)
 	
 	task.spawn(function()
@@ -2474,7 +2499,7 @@ task.spawn(function()
 	repeat		
 		task.wait(0.35)
 
-		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and not NearestEntityFound then
+		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and CanViewNearestBed and not NearestEntityFound then
 			ViewmodelController:playAnimation(15)
 		end		
 	until not game

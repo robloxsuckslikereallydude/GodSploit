@@ -2029,7 +2029,7 @@ local function Nuker(NearestBed, NearestOre)
 
 			if not RaycastResult.Instance then
 				TargetBlock = NearestBed
-			end							
+			end				
 
 			DamageBlockRemote:InvokeServer({
 				["blockRef"] = {
@@ -2038,6 +2038,12 @@ local function Nuker(NearestBed, NearestOre)
 				["hitPosition"] = GetServerPosition(TargetBlock.Position),
 				["hitNormal"] = GetServerPosition(TargetBlock.Position)
 			})
+			
+			task.spawn(function()
+				task.wait(0.35)
+
+				ViewmodelController:playAnimation(15)
+			end)
 		end
 	end
 
@@ -2483,25 +2489,6 @@ task.spawn(function()
 			local CapeTween = TweenService:Create(LocalPlayer.Character.Cape.Motor, TweenInformation, {CurrentAngle = -0.2})
 
 			CapeTween:Play()
-		end
-	until not game
-end)
-
-task.spawn(function()
-	repeat
-		task.wait()
-		
-		if IsAlive(LocalPlayer) then			
-			if Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true then	
-				local NearestEntity = FindNearestEntity(Settings.Nuker.Range)
-				local NearestBed = FindNearestBed(Settings.Nuker.Range)
-				
-				if NearestBed and not NearestEntity then
-					task.wait(0.35)
-
-					ViewmodelController:playAnimation(15)
-				end				
-			end	
 		end
 	until not game
 end)

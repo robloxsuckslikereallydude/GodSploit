@@ -2119,6 +2119,8 @@ local function FlyMe()
 							task.spawn(function()
 								FlyTeleportPosition = LocalPlayer.Character.PrimaryPart.Position.Y
 								
+								print(FlyTeleportPosition)
+								
 								task.wait(0.15)
 
 								if IsAlive(LocalPlayer) then 
@@ -2126,7 +2128,7 @@ local function FlyMe()
 
 									FlyGroundTime = tick()
 								end	
-							end)								
+							end)
 						end
 					end
 				end)
@@ -2493,7 +2495,7 @@ task.spawn(function()
 			local NearestOre = FindNearestOre(Settings.Nuker.Range)
 			
 			if not NearestEntity and NearestBed or NearestOre and Settings.Nuker.Value == true then	
-				task.wait(1)
+				task.wait(0.5)
 
 				ViewmodelController:playAnimation(15)
 			end	

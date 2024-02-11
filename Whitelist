@@ -1,3 +1,3 @@
-local WhitelistedUsers =  {"bf9eaba3-4cd2-4956-ad7d-eca9073f934bv"}
+local WhitelistedUsers =  {"bf9eaba3-4cd2-4956-ad7d-eca9073f934b"}
 
 return WhitelistedUsers

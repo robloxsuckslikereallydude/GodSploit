@@ -2076,8 +2076,8 @@ local function FlyMe()
 			repeat
 				task.wait()
 
-				if tick() - FlyGroundTime <= 2.4 then
-					local MaxFlyTime = 2.4
+				if tick() - FlyGroundTime <= 2.3 then
+					local MaxFlyTime = 2.3
 					local FlyTime = DecimalRound(tick() - FlyGroundTime, 1)
 
 					NumberDisplay.Text = FlyTime		
@@ -2113,7 +2113,7 @@ local function FlyMe()
 				end
 				
 				task.spawn(function()
-					if (tick() - FlyGroundTime) >= 2.4 then
+					if (tick() - FlyGroundTime) >= 2.3 then
 						FlyGroundTime = tick()
 						
 						local FlyTeleportPosition = 0

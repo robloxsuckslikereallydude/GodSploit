@@ -2014,49 +2014,55 @@ local function InfFly()
 end
 
 local function Nuker(NearestBed, NearestOre)
-	if NearestBed then
-		NearestBedFound = true
-		
-		local NukerRaycastParameters = RaycastParams.new()
-		local TargetBlock = nil
+	task.spawn(function()
+		if NearestBed then
+			NearestBedFound = true
 
-		NukerRaycastParameters.FilterType = Enum.RaycastFilterType.Exclude
-		NukerRaycastParameters.FilterDescendantsInstances = {LocalPlayer.Character}
-		NukerRaycastParameters.IgnoreWater = true
+			local NukerRaycastParameters = RaycastParams.new()
+			local TargetBlock = nil
 
-		local RaycastResult = WorkSpace:Raycast(NearestBed.Position + Vector3.new(0, 30, 0), Vector3.new(0, -35, 0), NukerRaycastParameters)
+			NukerRaycastParameters.FilterType = Enum.RaycastFilterType.Exclude
+			NukerRaycastParameters.FilterDescendantsInstances = {LocalPlayer.Character}
+			NukerRaycastParameters.IgnoreWater = true
 
-		if RaycastResult then
-			if RaycastResult.Instance then
-				TargetBlock = RaycastResult.Instance
+			local RaycastResult = WorkSpace:Raycast(NearestBed.Position + Vector3.new(0, 30, 0), Vector3.new(0, -35, 0), NukerRaycastParameters)
+
+			if RaycastResult then
+				if RaycastResult.Instance then
+					TargetBlock = RaycastResult.Instance
+				end
+
+				if not RaycastResult.Instance then
+					TargetBlock = NearestBed
+				end				
+
+				DamageBlockRemote:InvokeServer({
+					["blockRef"] = {
+						["blockPosition"] = GetServerPosition(TargetBlock.Position)
+					},
+					["hitPosition"] = GetServerPosition(TargetBlock.Position),
+					["hitNormal"] = GetServerPosition(TargetBlock.Position)
+				})
 			end
-
-			if not RaycastResult.Instance then
-				TargetBlock = NearestBed
-			end				
-
-			DamageBlockRemote:InvokeServer({
-				["blockRef"] = {
-					["blockPosition"] = GetServerPosition(TargetBlock.Position)
-				},
-				["hitPosition"] = GetServerPosition(TargetBlock.Position),
-				["hitNormal"] = GetServerPosition(TargetBlock.Position)
-			})
 		end
-	end
-
-	if not NearestBed and NearestOre then
-		NearestBedFound = false
+	end)
+	
+	task.spawn(function()
+		if not NearestBed and NearestOre then		
+			if Settings.Nuker.BreakOres == true then
+				DamageBlockRemote:InvokeServer({
+					["blockRef"] = {
+						["blockPosition"] = GetServerPosition(NearestOre.Position)
+					},
+					["hitPosition"] = GetServerPosition(NearestOre.Position),
+					["hitNormal"] = GetServerPosition(NearestOre.Position)
+				})
+			end
+		end
+	end)
 		
-		if Settings.Nuker.BreakOres == true then
-			DamageBlockRemote:InvokeServer({
-				["blockRef"] = {
-					["blockPosition"] = GetServerPosition(NearestOre.Position)
-				},
-				["hitPosition"] = GetServerPosition(NearestOre.Position),
-				["hitNormal"] = GetServerPosition(NearestOre.Position)
-			})
-		end
+	if not NearestBed then
+		NearestBedFound = false
 	end
 end
 
@@ -2108,6 +2114,8 @@ local function FlyMe()
 				
 				task.spawn(function()
 					if (tick() - FlyGroundTime) >= 2.4 then
+						FlyGroundTime = tick()
+						
 						local FlyTeleportPosition = 0
 						local FlyRaycastParameters = RaycastParams.new()
 
@@ -2128,13 +2136,10 @@ local function FlyMe()
 								task.wait(0.15)
 
 								if IsAlive(LocalPlayer) then 
-									local Args = {LocalPlayer.Character.PrimaryPart.CFrame:GetComponents()}
-									
+									local Args = {LocalPlayer.Character.PrimaryPart.CFrame:GetComponents()}									
 									Args[2] = FlyTeleportPosition
 									
-									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(unpack(Args))
-									
-									FlyGroundTime = tick()
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(unpack(Args))																		
 								end	
 							end)
 						end

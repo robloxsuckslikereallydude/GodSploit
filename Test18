@@ -2113,18 +2113,16 @@ local function FlyMe()
 						if FlyRaycast and IsAlive(LocalPlayer) then 
 							local Args = {LocalPlayer.Character.PrimaryPart.CFrame:GetComponents()}
 							Args[2] = FlyRaycast.Position.Y + 1 + LocalPlayer.Character.Humanoid.HipHeight
+							
+							FlyTeleportPosition = LocalPlayer.Character.PrimaryPart.Position.Y
 
 							LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(unpack(Args))
 							
-							task.spawn(function()
-								FlyTeleportPosition = LocalPlayer.Character.PrimaryPart.Position.Y
-								
-								print(FlyTeleportPosition)
-								
+							task.spawn(function()								
 								task.wait(0.15)
 
 								if IsAlive(LocalPlayer) then 
-									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Vector3.new(LocalPlayer.Character.PrimaryPart.Position.X, FlyTeleportPosition + LocalPlayer.Character.PrimaryPart.Position.Y - LocalPlayer.Character.PrimaryPart.Position.Y, LocalPlayer.Character.PrimaryPart.Position.Z))
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Vector3.new(LocalPlayer.Character.PrimaryPart.Position.X, FlyTeleportPosition, LocalPlayer.Character.PrimaryPart.Position.Z))
 
 									FlyGroundTime = tick()
 								end	
@@ -2492,10 +2490,9 @@ task.spawn(function()
 		if IsAlive(LocalPlayer) then
 			local NearestEntity = FindNearestEntity(Settings.Nuker.Range)
 			local NearestBed = FindNearestBed(Settings.Nuker.Range)
-			local NearestOre = FindNearestOre(Settings.Nuker.Range)
 			
-			if not NearestEntity and NearestBed or NearestOre and Settings.Nuker.Value == true then	
-				task.wait(0.5)
+			if not NearestEntity and NearestBed and Settings.Nuker.Value == true then	
+				task.wait(0.35)
 
 				ViewmodelController:playAnimation(15)
 			end	

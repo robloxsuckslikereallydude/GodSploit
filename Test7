@@ -2443,7 +2443,15 @@ task.spawn(function()
 					
 
 					if BlockController and ViewmodelController then
-						ViewmodelController:playAnimation(1)					
+						local Animation = AnimationUtil:playAnimation(LocalPlayer, BlockController:getAnimationController():getAssetId(1))
+						ViewmodelController:playAnimation(1)
+						
+						task.spawn(function()
+							task.wait(0.3)
+							
+							Animation:Stop()
+							Animation:Destroy()
+						end)						
 					end				
 				end			
 			end

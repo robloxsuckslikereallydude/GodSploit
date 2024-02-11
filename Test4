@@ -876,6 +876,7 @@ local BlockPlacementController
 local ViewmodelController
 local ZephyrController
 local SprintController
+local BlockController
 local SwordController
 local FovController
 
@@ -885,6 +886,7 @@ task.spawn(function()
 		ViewmodelController = KnitClient.Controllers.ViewmodelController
 		ZephyrController = KnitClient.Controllers.WindWalkerController
 		SprintController = KnitClient.Controllers.SprintController
+		BlockController = require(ReplicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out).BlockEngine
 		SwordController = KnitClient.Controllers.SwordController
 		FovController = KnitClient.Controllers.FovController
 	end
@@ -2440,8 +2442,8 @@ task.spawn(function()
 					Nuker(NearestBed, NearestOre)
 					
 
-					if BlockPlacementController and ViewmodelController then
-						local Animation = AnimationUtil:playAnimation(LocalPlayer, BlockPlacementController:getAnimationController():getAssetId(1))
+					if BlockController and ViewmodelController then
+						local Animation = AnimationUtil:playAnimation(LocalPlayer, BlockController:getAnimationController():getAssetId(1))
 						ViewmodelController:playAnimation(15)
 					end				
 				end			

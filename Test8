@@ -2441,18 +2441,19 @@ task.spawn(function()
 				if NearestBed or NearestOre then
 					Nuker(NearestBed, NearestOre)
 					
+					task.spawn(function()
+						if BlockController and ViewmodelController then
+							local Animation = AnimationUtil:playAnimation(LocalPlayer, BlockController:getAnimationController():getAssetId(1))
+							ViewmodelController:playAnimation(15)
 
-					if BlockController and ViewmodelController then
-						local Animation = AnimationUtil:playAnimation(LocalPlayer, BlockController:getAnimationController():getAssetId(1))
-						ViewmodelController:playAnimation(1)
-						
-						task.spawn(function()
-							task.wait(0.3)
-							
-							Animation:Stop()
-							Animation:Destroy()
-						end)						
-					end				
+							task.spawn(function()
+								task.wait(0.1)
+
+								Animation:Stop()
+								Animation:Destroy()
+							end)
+						end	
+					end)								
 				end			
 			end
 		end)

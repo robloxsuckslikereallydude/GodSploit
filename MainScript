@@ -2065,11 +2065,11 @@ local function Nuker(NearestBed, NearestOre)
 					["hitNormal"] = GetServerPosition(TargetBlock.Position)
 				})
 			end
+			
+			task.spawn(function()
+				CanViewNearestBed = Camera:WorldToScreenPoint(NearestBed.Position)
+			end)
 		end
-		
-		task.spawn(function()
-			CanViewNearestBed = Camera:WorldToScreenPoint(NearestBed.Position)
-		end)
 	end)
 	
 	task.spawn(function()

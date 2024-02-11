@@ -2122,7 +2122,7 @@ local function FlyMe()
 								task.wait(0.15)
 
 								if IsAlive(LocalPlayer) then 
-									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new((LocalPlayer.Character.PrimaryPart.Position) + (Vector3.new(0, FlyTeleportPosition / 2, 0)))
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Vector3.new(LocalPlayer.Character.PrimaryPart.Position.X, FlyTeleportPosition, LocalPlayer.Character.PrimaryPart.Position.Z))
 
 									FlyGroundTime = tick()
 								end	
@@ -2436,14 +2436,7 @@ task.spawn(function()
 				local NearestOre = FindNearestOre(Settings.Nuker.Range) or nil
 
 				if NearestBed or NearestOre then
-					Nuker(NearestBed, NearestOre)
-					
-					task.spawn(function()
-						if ViewmodelController then	
-							task.wait(1)
-							ViewmodelController:playAnimation(15)
-						end	
-					end)								
+					Nuker(NearestBed, NearestOre)								
 				end			
 			end
 		end)
@@ -2487,6 +2480,22 @@ task.spawn(function()
 
 			CapeTween:Play()
 		end
+	until not game
+end)
+
+task.spawn(function()
+	repeat
+		task.wait()
+		
+		local NearestEntity = FindNearestEntity(Settings.Nuker.Range)
+		local NearestBed = FindNearestBed(Settings.Nuker.Range)
+		local NearestOre = FindNearestOre(Settings.Nuker.Range)
+		
+		if IsAlive(LocalPlayer) and not NearestEntity and NearestBed and NearestOre and Settings.Nuker.Value == true then	
+			task.wait(1)
+			
+			ViewmodelController:playAnimation(15)
+		end	
 	until not game
 end)
 

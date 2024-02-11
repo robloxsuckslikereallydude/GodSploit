@@ -2060,10 +2060,12 @@ local function Nuker(NearestBed, NearestOre)
 			end
 		end
 	end)
-		
-	if not NearestBed then
-		NearestBedFound = false
-	end
+	
+	task.spawn(function()
+		if not NearestBed then
+			NearestBedFound = false
+		end
+	end)
 end
 
 local function FlyMe()

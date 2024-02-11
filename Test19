@@ -694,7 +694,7 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "GodSploitBeta"
+local SaveFileName = "GodSploitBetaSaving"
 
 local function CreateSettingsFile()
 	local DefaultSetting = {Properties = {Value = false}}
@@ -734,7 +734,7 @@ local function CreateSettingsFile()
 		Aimbot = {ToolCheck = false, KeyBind = "..."},
 		Speed = {Speed = 23, KeyBind = "..."},
 		Reach = {KeyBind = "..."},
-		Nuker = {Range = 30, BreakOres = true, KeyBind = "..."},
+		Nuker = {Range = 30, CustomAnimation = true, BreakOres = true, KeyBind = "..."},
 		BedTp = {KeyBind = "..."},
 		Sigma = {KeyBind = "..."},
 		Cape = {KeyBind = "..."},
@@ -2491,7 +2491,7 @@ task.spawn(function()
 			local NearestEntity = FindNearestEntity(Settings.Nuker.Range)
 			local NearestBed = FindNearestBed(Settings.Nuker.Range)
 			
-			if not NearestEntity and NearestBed and Settings.Nuker.Value == true then	
+			if not NearestEntity and NearestBed and Settings.Nuker.Value == true and Settings.Nuker.Animation == true then	
 				task.wait(0.35)
 
 				ViewmodelController:playAnimation(15)
@@ -2759,25 +2759,6 @@ task.spawn(function()
 						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
 					end
 				end
-			end
-		end)
-	end)
-
-	task.spawn(function()
-		local InstanceUI
-		local Value = false
-
-		DropDownButton.Activated:Connect(function()
-			Value = not Value
-
-			if Value == true then
-				InstanceUI = CreateMiniToggle(CombatTab, "CustomAnimation", Settings.KillAura.CustomAnimation, LayoutOrder + 2, function(CallBack)
-					Settings.KillAura.CustomAnimation = CallBack
-				end)
-			end
-
-			if Value == false then
-				InstanceUI:Destroy()
 			end
 		end)
 	end)
@@ -4847,6 +4828,25 @@ task.spawn(function()
 			end
 		end)
 	end)
+	
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateMiniToggle(WorldTab, "CustomAnimation", Settings.Nuker.CustomAnimation, LayoutOrder + 2, function(CallBack)
+					Settings.Nuker.CustomAnimation = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
 
 	task.spawn(function()
 		local InstanceUI
@@ -4856,7 +4856,7 @@ task.spawn(function()
 			Value = not Value
 
 			if Value == true then
-				InstanceUI = CreateMiniToggle(WorldTab, "BreakOres", Settings.Nuker.BreakOres, LayoutOrder + 2, function(CallBack)
+				InstanceUI = CreateMiniToggle(WorldTab, "BreakOres", Settings.Nuker.BreakOres, LayoutOrder + 3, function(CallBack)
 					Settings.Nuker.BreakOres = CallBack
 				end)
 			end
@@ -4875,7 +4875,7 @@ task.spawn(function()
 			Value = not Value
 
 			if Value == true then
-				InstanceUI = CreateSlider(WorldTab, "Range", Settings.Nuker.Range, 30, LayoutOrder + 3, function(CallBack)
+				InstanceUI = CreateSlider(WorldTab, "Range", Settings.Nuker.Range, 30, LayoutOrder + 4, function(CallBack)
 					Settings.Nuker.Range = CallBack
 				end)
 			end

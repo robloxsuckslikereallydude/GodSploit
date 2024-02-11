@@ -2060,12 +2060,6 @@ local function Nuker(NearestBed, NearestOre)
 			end
 		end
 	end)
-	
-	task.spawn(function()
-		if not NearestBed then
-			NearestBedFound = false
-		end
-	end)
 end
 
 local function FlyMe()
@@ -2177,12 +2171,12 @@ task.spawn(function()
 					
 					NearestEntityFound = true
 				end
-				
-				task.spawn(function()
-					if not NearestEntity then
-						NearestEntityFound = false
-					end
-				end)
+			end)
+			
+			task.spawn(function()
+				if not NearestEntity then
+					NearestEntityFound = false
+				end
 			end)
 		end
 	until not game	
@@ -2460,9 +2454,17 @@ task.spawn(function()
 				local NearestBed = FindNearestBed(Settings.Nuker.Range) or nil
 				local NearestOre = FindNearestOre(Settings.Nuker.Range) or nil
 
-				if NearestBed or NearestOre then
-					Nuker(NearestBed, NearestOre)								
-				end			
+				task.spawn(function()
+					if NearestBed or NearestOre then
+						Nuker(NearestBed, NearestOre)								
+					end	
+				end)						
+				
+				task.spawn(function()
+					if not NearestBed then
+						NearestBedFound = false
+					end
+				end)				
 			end
 		end)
 	until not game

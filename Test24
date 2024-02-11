@@ -1135,7 +1135,7 @@ function FindNearestBed(MaxDistance)
 	local NearestBed = nil
 
 	for i, v in next, WorkSpace:GetDescendants() do
-		if v.Name:lower() == "bed" and v:FindFirstChild("Covers") and v:FindFirstChild("Covers").BrickColor ~= LocalPlayer.Team.TeamColor and v:GetAttribute("BedShieldEndTime") < WorkSpace:GetServerTimeNow() then
+		if v.Name:lower() == "bed" and v:FindFirstChild("Covers") and v:FindFirstChild("Covers").BrickColor ~= LocalPlayer.Team.TeamColor and (v:GetAttribute("BedShieldEndTime") and v:GetAttribute("BedShieldEndTime") < WorkSpace:GetServerTimeNow() or true)  then
 			local Distance = (v.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude
 
 			if Distance < MaxDistance then
@@ -2124,7 +2124,11 @@ local function FlyMe()
 								if IsAlive(LocalPlayer) then 
 									FlyGroundTime = tick()
 									
-									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Vector3.new(LocalPlayer.Character.PrimaryPart.Position.X, FlyTeleportPosition, LocalPlayer.Character.PrimaryPart.Position.Z))									
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Vector3.new(LocalPlayer.Character.PrimaryPart.Position.X, FlyTeleportPosition, LocalPlayer.Character.PrimaryPart.Position.Z))
+									
+									task.wait(0.1)
+									
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Vector3.new(LocalPlayer.Character.PrimaryPart.Position.X, FlyTeleportPosition, LocalPlayer.Character.PrimaryPart.Position.Z))
 								end	
 							end)
 						end

@@ -1135,7 +1135,7 @@ function FindNearestBed(MaxDistance)
 	local NearestBed = nil
 
 	for i, v in next, WorkSpace:GetDescendants() do
-		if v.Name:lower() == "bed" and v:FindFirstChild("Covers") and v:FindFirstChild("Covers").BrickColor ~= LocalPlayer.Team.TeamColor then
+		if v.Name:lower() == "bed" and v:FindFirstChild("Covers") and v:FindFirstChild("Covers").BrickColor ~= LocalPlayer.Team.TeamColor and v:GetAttribute("BedShieldEndTime") < WorkSpace:GetServerTimeNow() then
 			local Distance = (v.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude
 
 			if Distance < MaxDistance then
@@ -2487,14 +2487,16 @@ task.spawn(function()
 	repeat
 		task.wait()
 		
-		if IsAlive(LocalPlayer) then
-			local NearestEntity = FindNearestEntity(Settings.Nuker.Range)
-			local NearestBed = FindNearestBed(Settings.Nuker.Range)
-			
-			if not NearestEntity and NearestBed and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true then	
-				task.wait(0.35)
+		if IsAlive(LocalPlayer) then			
+			if Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true then	
+				local NearestEntity = FindNearestEntity(Settings.Nuker.Range)
+				local NearestBed = FindNearestBed(Settings.Nuker.Range)
+				
+				if NearestBed and not NearestEntity then
+					task.wait(0.35)
 
-				ViewmodelController:playAnimation(15)
+					ViewmodelController:playAnimation(15)
+				end				
 			end	
 		end
 	until not game

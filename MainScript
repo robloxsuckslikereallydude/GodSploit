@@ -13,7 +13,7 @@ local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
 local WorkSpace = game:GetService("Workspace") or game.Workspace
 
-local AlSploit = Instance.new("ScreenGui")
+local GodSploit = Instance.new("ScreenGui")
 local ContainerFrame = Instance.new("Frame")
 local ContainerFrameUIListLayout = Instance.new("UIListLayout")
 local NotificationContainer = Instance.new("Frame")
@@ -21,13 +21,13 @@ local NotificationContainerUIListLayout = Instance.new("UIListLayout")
 
 local DefaultLayoutOrder = 0
 
-AlSploit.Name = "AlSploit"
-AlSploit.Parent = LocalPlayer:WaitForChild("PlayerGui")
-AlSploit.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-AlSploit.ResetOnSpawn = false
+GodSploit.Name = "GodSploit"
+GodSploit.Parent = LocalPlayer:WaitForChild("PlayerGui")
+GodSploit.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+GodSploit.ResetOnSpawn = false
 
 ContainerFrame.Name = "ContainerFrame"
-ContainerFrame.Parent = AlSploit
+ContainerFrame.Parent = GodSploit
 ContainerFrame.BackgroundColor3 = Color3.new(255, 255, 255)
 ContainerFrame.BackgroundTransparency = 1.000
 ContainerFrame.BorderColor3 = Color3.new(0, 0, 0)
@@ -43,7 +43,7 @@ ContainerFrameUIListLayout.FillDirection = Enum.FillDirection.Horizontal
 ContainerFrameUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
 NotificationContainer.Name = "NotificationContainer"
-NotificationContainer.Parent = AlSploit
+NotificationContainer.Parent = GodSploit
 NotificationContainer.BackgroundColor3 = Color3.new(255, 255, 255)
 NotificationContainer.BackgroundTransparency = 1.000
 NotificationContainer.BorderColor3 = Color3.new(0, 0, 0)
@@ -68,7 +68,7 @@ UIStroke.Thickness = 2
 UIStroke.Color = Color3.new(1, 0.666667, 0)
 
 Open.Name = "Open"
-Open.Parent = AlSploit
+Open.Parent = GodSploit
 Open.BackgroundColor3 = Color3.new(255, 255, 255)
 Open.BorderColor3 = Color3.new(0, 0, 0)
 Open.BorderSizePixel = 0
@@ -593,7 +593,7 @@ local function CreateFlyHud()
 	local UICorner_3 = Instance.new("UICorner")
 
 	Background.Name = "Background"
-	Background.Parent = AlSploit
+	Background.Parent = GodSploit
 	Background.BackgroundColor3 = Color3.new(0, 0, 0)
 	Background.BackgroundTransparency = 0.250
 	Background.BorderColor3 = Color3.new(0, 0, 0)
@@ -757,21 +757,21 @@ local function CreateSettingsFile()
 		end
 
 		if writefile and makefolder and readfile and isfile then 
-			makefolder("AlSploitBedwarsConfigSaving")
+			makefolder("GodSploitBedwarsConfigSaving")
 
 			local JSONEncodeSettings = HttpService:JSONEncode(Settings)
 
-			writefile("AlSploitBedwarsConfigSaving/" .. SaveFileName, JSONEncodeSettings)	
+			writefile("GodSploitBedwarsConfigSaving/" .. SaveFileName, JSONEncodeSettings)	
 		end
 	end)	
 end
 
 local function CheckFirstTime()
-	if isfile("AlSploitBedwarsConfigSaving/" .. SaveFileName) then
+	if isfile("GodSploitBedwarsConfigSaving/" .. SaveFileName) then
 		return false
 	end
 
-	if not isfile("AlSploitBedwarsConfigSaving/" .. SaveFileName) then
+	if not isfile("GodSploitBedwarsConfigSaving/" .. SaveFileName) then
 		return true
 	end
 end
@@ -779,12 +779,12 @@ end
 function SaveSettings()	
 	local JSONEncodeSettings = HttpService:JSONEncode(Settings)
 
-	writefile("AlSploitBedwarsConfigSaving/" .. SaveFileName, JSONEncodeSettings)	
+	writefile("GodSploitBedwarsConfigSaving/" .. SaveFileName, JSONEncodeSettings)	
 end
 
 function LoadSettings()
-	if isfile("AlSploitBedwarsConfigSaving/" .. SaveFileName) then
-		Settings = HttpService:JSONDecode(readfile("AlSploitBedwarsConfigSaving/" .. SaveFileName))
+	if isfile("GodSploitBedwarsConfigSaving/" .. SaveFileName) then
+		Settings = HttpService:JSONDecode(readfile("GodSploitBedwarsConfigSaving/" .. SaveFileName))
 
 		Loaded = true
 	end
@@ -1422,27 +1422,27 @@ local function AutoToxic(Player)
 	local KillMessage = ""					
 
 	if Randomized == 0 then
-		KillMessage = "You are so bad u died. L" .. Player.Name .. " | AlSploit on top"
+		KillMessage = "You are so bad u died. L" .. Player.Name .. " | GodSploit on top"
 	end
 
 	if Randomized ~= 0 then
-		KillMessage = "I could probably win without cheats. L" .. Player.Name .. " | AlSploit on top"
+		KillMessage = "I could probably win without cheats. L" .. Player.Name .. " | GodSploit on top"
 	end
 
 	if Randomized == 2 then
-		KillMessage = "Clowns are the only ones we kill. L" .. Player.Name .. " | AlSploit on top"
+		KillMessage = "Clowns are the only ones we kill. L" .. Player.Name .. " | GodSploit on top"
 	end
 
 	if Randomized == 3 then
-		KillMessage = "Rats. Imagine dying in a block game. L" .. Player.Name .. " | AlSploit on top"
+		KillMessage = "Rats. Imagine dying in a block game. L" .. Player.Name .. " | GodSploit on top"
 	end
 
 	if Randomized == 4 then
-		KillMessage = "I hack for fun. Too bad your fun is ruined. L" .. Player.Name .. " | AlSploit on top"
+		KillMessage = "I hack for fun. Too bad your fun is ruined. L" .. Player.Name .. " | GodSploit on top"
 	end
 
 	if Randomized == 5 then
-		KillMessage = "I ruined a good day for a good reason. L" .. Player.Name .. " | AlSploit on top"
+		KillMessage = "I ruined a good day for a good reason. L" .. Player.Name .. " | GodSploit on top"
 	end
 
 	SendChatMessage(KillMessage)
@@ -1490,27 +1490,27 @@ local function ChatSpam()
 	local KillMessage = ""
 
 	if Randomized == 0 then
-		KillMessage = "AlSploit does more updates than Bedwars 💀. | AlSploit On Top"
+		KillMessage = "GodSploit does more updates than Bedwars 💀. | GodSploit On Top"
 	end
 
 	if Randomized ~= 0 then
-		KillMessage = "SkidB4 is as bad as how you felt when your dad left you. | AlSploit On Top"
+		KillMessage = "SkidB4 is as bad as how you felt when your dad left you. | GodSploit On Top"
 	end
 
 	if Randomized == 2 then
-		KillMessage = "Switch to AlSploit, ez wins. | AlSploit On Top"
+		KillMessage = "Switch to GodSploit, ez wins. | GodSploit On Top"
 	end
 
 	if Randomized == 3 then
-		KillMessage = "I am not cheating, my gaming chair is. | AlSploit On Top"
+		KillMessage = "I am not cheating, my gaming chair is. | GodSploit On Top"
 	end
 
 	if Randomized == 4 then
-		KillMessage = "3 years now, and the anticheat is still the same. | AlSploit On Top"
+		KillMessage = "3 years now, and the anticheat is still the same. | GodSploit On Top"
 	end
 
 	if Randomized == 5 then
-		KillMessage = "Kids in bedwars just keep getting worst. | AlSploit On Top"
+		KillMessage = "Kids in bedwars just keep getting worst. | GodSploit On Top"
 	end
 
 	SendChatMessage(KillMessage)
@@ -3785,13 +3785,13 @@ task.spawn(function()
 			FpsBoost()
 
 			task.spawn(function()
-				CreateNotification(5, "AlSploit is now in balanced mode")
+				CreateNotification(5, "GodSploit is now in balanced mode")
 			end)			
 		end
 
 		if Settings.FpsBooster.Value == false then
 			task.spawn(function()
-				CreateNotification(5, "AlSploit is now in performance mode")
+				CreateNotification(5, "GodSploit is now in performance mode")
 			end)
 		end
 	end)
@@ -4408,7 +4408,7 @@ task.spawn(function()
 			local OldObj = debug.getupvalue(DamageIndicator, 10)
 
 			if Settings.Indicators.Value == true then
-				local Messages = {"AlSploit", "Best Client", ":D", "💀"}
+				local Messages = {"GodSploit", "Best Client", ":D", "💀"}
 
 				debug.setupvalue(DamageIndicator, 10, {
 					Create = function(self, obj, ...)
@@ -4782,7 +4782,7 @@ task.spawn(function()
 		if Settings.Sigma.Value == false then
 			task.spawn(function()
 				if IsAlive(LocalPlayer) and Settings.Cape.Value == true and LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Decal") then
-					LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Decal").Texture = "rbxassetid://" .. 16223063079
+					LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Decal").Texture = "rbxassetid://" .. 16331277884
 				end
 			end)
 		end
@@ -5003,7 +5003,7 @@ task.spawn(function()
 			v.Chatted:Connect(function(Message)				
 				if Message:lower() == ";kick default" and v.Name == Owner and LocalPlayer.Name ~= Owner then
 					task.spawn(function()
-						LocalPlayer:Kick("Kicked by AlSploit owner")
+						LocalPlayer:Kick("Kicked by GodSploit owner")
 					end)
 				end
 
@@ -5067,7 +5067,7 @@ task.spawn(function()
 	ViewModel.RightHand.RightWrist.C1 = C1 * CFrame.Angles(math.rad(0), math.rad(0), math.rad(RotationZ.Value))
 
 	task.spawn(function()
-		CreateNotification(5, "AlSploit has loaded!")
+		CreateNotification(5, "GodSploit has loaded!")
 	end)
 
 	task.spawn(function()

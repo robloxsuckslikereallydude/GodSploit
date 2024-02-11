@@ -2109,23 +2109,25 @@ local function FlyMe()
 						local FlyRaycast = WorkSpace:Raycast(LocalPlayer.Character.PrimaryPart.Position, Vector3.new(0, -1000, 0), FlyRaycastParameters)
 
 						if FlyRaycast and IsAlive(LocalPlayer) then 
-							FlyTeleportPosition = LocalPlayer.Character.PrimaryPart.Position.Y
-
 							local Args = {LocalPlayer.Character.PrimaryPart.CFrame:GetComponents()}
 							Args[2] = FlyRaycast.Position.Y + 1 + LocalPlayer.Character.Humanoid.HipHeight
 
 							LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(unpack(Args))
-
-							task.wait(0.15)
-
-							if IsAlive(LocalPlayer) then 
-								local Args2 = {LocalPlayer.Character.PrimaryPart.CFrame:GetComponents()}
-								Args2[2] = FlyTeleportPosition
+							
+							task.spawn(function()
+								FlyTeleportPosition = LocalPlayer.Character.PrimaryPart.Position.Y
 								
-								LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(unpack(Args))
+								task.wait(0.15)
 
-								FlyGroundTime = tick()
-							end		
+								if IsAlive(LocalPlayer) then 
+									local Args = {LocalPlayer.Character.PrimaryPart.CFrame:GetComponents()}
+									Args[2] = FlyTeleportPosition
+
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(unpack(Args))
+
+									FlyGroundTime = tick()
+								end	
+							end)								
 						end
 					end
 				end)

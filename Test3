@@ -865,7 +865,7 @@ end)
 local ProjectileMeta = require(ReplicatedStorage.TS.projectile["projectile-meta"]).ProjectileMeta
 local SwordHitRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SwordHit")
 local CombatConstant = require(ReplicatedStorage.TS.combat["combat-constant"]).CombatConstant
-local PlacementCPS = require(game.ReplicatedStorage.TS["shared-constants"]).CpsConstants
+local PlacementCPS = require(ReplicatedStorage.TS["shared-constants"]).CpsConstants
 local ReportRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ReportPlayer")
 local MinerRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DestroyPetrifiedPlayer")
 
@@ -873,6 +873,7 @@ local KnockBackTable = debug.getupvalue(require(ReplicatedStorage.TS.damage["kno
 local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"]).getItemMeta, 1)
 
 local BlockPlacementController
+local ViewmodelController
 local ZephyrController
 local SprintController
 local SwordController
@@ -881,6 +882,7 @@ local FovController
 task.spawn(function()
 	if KnitGotten then
 		BlockPlacementController = KnitClient.Controllers.BlockPlacementController
+		ViewmodelController = KnitClient.Controllers.ViewmodelController
 		ZephyrController = KnitClient.Controllers.WindWalkerController
 		SprintController = KnitClient.Controllers.SprintController
 		SwordController = KnitClient.Controllers.SwordController
@@ -889,6 +891,7 @@ task.spawn(function()
 end)
 
 local InventoryUtil = require(ReplicatedStorage.TS.inventory["inventory-util"]).InventoryUtil
+local AnimationUtil = require(ReplicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].util["animation-util"]).AnimationUtil
 local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"]).getItemMeta, 1)
 
 local KillAuraAnimationCooldown = true
@@ -2120,7 +2123,7 @@ local function FlyMe()
 								task.wait(0.15)
 
 								if IsAlive(LocalPlayer) then 
-									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(LocalPlayer.Character.PrimaryPart.Position + (Vector3.new(0, FlyTeleportPosition, 0) - Vector3.new(0, LocalPlayer.Character.PrimaryPart.Position.Y, 0)))
+									LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(LocalPlayer.Character.PrimaryPart.Position + (Vector3.new(0, FlyTeleportPosition, 0)))
 
 									FlyGroundTime = tick()
 								end	
@@ -2435,6 +2438,12 @@ task.spawn(function()
 
 				if NearestBed or NearestOre then
 					Nuker(NearestBed, NearestOre)
+					
+
+					if BlockPlacementController and ViewmodelController then
+						local Animation = AnimationUtil:playAnimation(LocalPlayer, BlockPlacementController:getAnimationController():getAssetId(1))
+						ViewmodelController:playAnimation(15)
+					end				
 				end			
 			end
 		end)

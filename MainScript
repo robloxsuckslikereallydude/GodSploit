@@ -895,7 +895,6 @@ local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"
 
 local KillAuraAnimationCooldown = true
 local NearestEntityFound = false
-local CanViewNearestBed = false
 local InfiniteFlyValue = false
 local FlyBodyVelocity = nil
 local NearestBedFound = false
@@ -2065,10 +2064,6 @@ local function Nuker(NearestBed, NearestOre)
 					["hitNormal"] = GetServerPosition(TargetBlock.Position)
 				})
 			end
-			
-			task.spawn(function()
-				CanViewNearestBed = Camera:WorldToScreenPoint(NearestBed.Position)
-			end)
 		end
 	end)
 	
@@ -2499,7 +2494,7 @@ task.spawn(function()
 	repeat		
 		task.wait(0.35)
 
-		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and CanViewNearestBed and not NearestEntityFound then
+		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and not NearestEntityFound then
 			ViewmodelController:playAnimation(15)
 		end		
 	until not game

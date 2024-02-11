@@ -894,8 +894,10 @@ local InventoryUtil = require(ReplicatedStorage.TS.inventory["inventory-util"]).
 local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"]).getItemMeta, 1)
 
 local KillAuraAnimationCooldown = true
+local NearestEntityFound = false
 local InfiniteFlyValue = false
 local FlyBodyVelocity = nil
+local NearestBedFound = false
 local SpoofedCamera = nil
 local AntiVoidPart = nil
 local LoopWaitTime = 0
@@ -2013,6 +2015,8 @@ end
 
 local function Nuker(NearestBed, NearestOre)
 	if NearestBed then
+		NearestBedFound = true
+		
 		local NukerRaycastParameters = RaycastParams.new()
 		local TargetBlock = nil
 
@@ -2038,16 +2042,12 @@ local function Nuker(NearestBed, NearestOre)
 				["hitPosition"] = GetServerPosition(TargetBlock.Position),
 				["hitNormal"] = GetServerPosition(TargetBlock.Position)
 			})
-			
-			task.spawn(function()
-				task.wait(0.35)
-
-				ViewmodelController:playAnimation(15)
-			end)
 		end
 	end
 
 	if not NearestBed and NearestOre then
+		NearestBedFound = false
+		
 		if Settings.Nuker.BreakOres == true then
 			DamageBlockRemote:InvokeServer({
 				["blockRef"] = {
@@ -2167,7 +2167,15 @@ task.spawn(function()
 			task.spawn(function()
 				if NearestEntity and Sword then
 					SwordHit(NearestEntity, Sword, NearestEntityDistance)
+					
+					NearestEntityFound = true
 				end
+				
+				task.spawn(function()
+					if not NearestEntity then
+						NearestEntityFound = false
+					end
+				end)
 			end)
 		end
 	until not game	
@@ -2450,6 +2458,16 @@ task.spawn(function()
 				end			
 			end
 		end)
+	until not game
+end)
+
+task.spawn(function()
+	repeat		
+		task.wait(0.35)
+
+		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and not NearestEntityFound then
+			ViewmodelController:playAnimation(15)
+		end		
 	until not game
 end)
 

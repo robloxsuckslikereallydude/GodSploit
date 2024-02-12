@@ -896,6 +896,7 @@ local ItemTable = debug.getupvalue(require(ReplicatedStorage.TS.item["item-meta"
 local KillAuraAnimationCooldown = true
 local NearestEntityFound = false
 local InfiniteFlyValue = false
+local CanSeeNearestBed = false
 local FlyBodyVelocity = nil
 local NearestBedFound = false
 local SpoofedCamera = nil
@@ -1136,13 +1137,26 @@ function FindNearestBed(MaxDistance)
 	local MaxDistance = MaxDistance or math.huge
 	local NearestBed = nil
 
-	for i, v in next, WorkSpace:GetDescendants() do
-		if v.Name:lower() == "bed" and v:FindFirstChild("Covers") and v:FindFirstChild("Covers").BrickColor ~= LocalPlayer.Team.TeamColor and (v:GetAttribute("BedShieldEndTime") and v:GetAttribute("BedShieldEndTime") < WorkSpace:GetServerTimeNow() or true)  then
-			local Distance = (v.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude
+	for i, v in next, CollectionService:GetTagged("bed")do
+		if v:FindFirstChild("Covers").BrickColor ~= LocalPlayer.Team.TeamColor then			
+			if v:GetAttribute("BedShieldEndTime") then 				
+				if v:GetAttribute("BedShieldEndTime") < WorkSpace:GetServerTimeNow() then
+					local Distance = (v.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude
 
-			if Distance < MaxDistance then
-				MaxDistance = Distance
-				NearestBed = v
+					if Distance < MaxDistance then
+						MaxDistance = Distance
+						NearestBed = v
+					end
+				end
+			end
+			
+			if not v:GetAttribute("BedShieldEndTime") then
+				local Distance = (v.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude
+
+				if Distance < MaxDistance then
+					MaxDistance = Distance
+					NearestBed = v
+				end
 			end
 		end
 	end
@@ -2064,6 +2078,12 @@ local function Nuker(NearestBed, NearestOre)
 					["hitNormal"] = GetServerPosition(TargetBlock.Position)
 				})
 			end
+			
+			task.spawn(function()
+				local _, Value = Camera:WorldToScreenPoint(NearestBed:FindFirstChild("Covers").Position)
+
+				CanSeeNearestBed = Value
+			end)
 		end
 	end)
 	
@@ -2255,7 +2275,7 @@ task.spawn(function()
 		end)
 
 		task.spawn(function()
-			if Settings.Scaffold.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
+			if Settings.Scaffold.Value == true and IsAlive(LocalPlayer) and FlyValue == false and GetMatchState() ~= 0 then
 				for i = 1, Settings.Scaffold.ExpandDistance do
 					local ScaffoldCFrame = LocalPlayer.Character.PrimaryPart.Position + (LocalPlayer.Character.Humanoid.MoveDirection * (i * 3.3)) - Vector3.new(0, (LocalPlayer.Character.PrimaryPart.Size.Y / 2) + (LocalPlayer.Character.Humanoid.HipHeight + 1.5), 0)
 					local Position = GetServerPosition(ScaffoldCFrame)
@@ -2492,9 +2512,11 @@ end)
 
 task.spawn(function()
 	repeat		
-		task.wait(0.35)
+		task.wait()
 
-		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and not NearestEntityFound then
+		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and CanSeeNearestBed and not NearestEntityFound then
+			task.wait(0.35)
+			
 			ViewmodelController:playAnimation(15)
 		end		
 	until not game

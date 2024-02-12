@@ -1941,7 +1941,7 @@ local function SwordHit(Entity, Weapon, NearestEntityDistance)
 
 	task.spawn(function()
 		if Settings.KillAura.Strafe == true and NearestEntityDistance < 10 then
-			LocalPlayerHumanoidRootPart.CFrame = CFrame.new(EntityPrimaryPart.Position - EntityPrimaryPart.CFrame.LookVector * 5 + Vector3.new(0, 0, 5))
+			LocalPlayerHumanoidRootPart.CFrame = CFrame.new(EntityPrimaryPart.Position - EntityPrimaryPart.CFrame.LookVector * 5)
 		end
 	end)
 

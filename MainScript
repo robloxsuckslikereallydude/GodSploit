@@ -1941,7 +1941,7 @@ local function SwordHit(Entity, Weapon, NearestEntityDistance)
 
 	task.spawn(function()
 		if Settings.KillAura.Strafe == true and NearestEntityDistance < 10 then
-			LocalPlayerHumanoidRootPart.CFrame = CFrame.new(EntityPrimaryPart.Position - EntityPrimaryPart.CFrame.LookVector * 5 + Vector3.new(0, 0, 5))
+			LocalPlayerHumanoidRootPart.CFrame = CFrame.new(EntityPrimaryPart.Position - EntityPrimaryPart.CFrame.LookVector * 5)
 		end
 	end)
 
@@ -2080,7 +2080,7 @@ local function Nuker(NearestBed, NearestOre)
 			end
 			
 			task.spawn(function()
-				local _, Value = Camera:WorldToScreenPoint(NearestBed:FindFirstChild("Covers").Position)
+				local _, Value = Camera:WorldToScreenPoint(NearestBed.Position)
 
 				CanSeeNearestBed = Value
 			end)
@@ -2325,12 +2325,6 @@ task.spawn(function()
 		end)
 
 		task.spawn(function()
-			if Settings.AutoBuy.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
-				AutoBuy()
-			end			
-		end)
-
-		task.spawn(function()
 			if Settings.Fov.Value == true and KnitGotten == true then 
 				FovController:setFOV(Settings.Fov.Fov) 
 			end 
@@ -2504,8 +2498,14 @@ task.spawn(function()
 					if not NearestBed then
 						NearestBedFound = false
 					end
-				end)				
+				end)
 			end
+		end)
+		
+		task.spawn(function()
+			if Settings.AutoBuy.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
+				AutoBuy()
+			end			
 		end)
 	until not game
 end)

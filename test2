@@ -2325,12 +2325,6 @@ task.spawn(function()
 		end)
 
 		task.spawn(function()
-			if Settings.AutoBuy.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
-				AutoBuy()
-			end			
-		end)
-
-		task.spawn(function()
 			if Settings.Fov.Value == true and KnitGotten == true then 
 				FovController:setFOV(Settings.Fov.Fov) 
 			end 
@@ -2506,6 +2500,12 @@ task.spawn(function()
 					end
 				end)				
 			end
+		end)
+		
+		task.spawn(function()
+			if Settings.AutoBuy.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
+				AutoBuy()
+			end			
 		end)
 	until not game
 end)

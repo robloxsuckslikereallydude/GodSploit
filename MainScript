@@ -1561,22 +1561,18 @@ function GetSpeed()
 
 	if IsAlive(LocalPlayer) then 
 
-		local SpeedDamageBoost =  LocalPlayer.Character:GetAttribute("SpeedBoost")
-
-		if SpeedDamageBoost and SpeedDamageBoost > 1 then 
-			Speed = Speed + (20 * (SpeedDamageBoost - 1))
-		end
-
-		if LocalPlayer.Character:GetAttribute("SpeedPieBuff") then 
-			Speed = Speed + 5
+		local SpeedBoost = LocalPlayer.Character:GetAttribute("SpeedBoost")
+		
+		if SpeedBoost and SpeedBoost > 1 then 
+			Speed = Speed + (8 * (SpeedBoost - 1))
 		end
 
 		if LocalPlayer.Character:GetAttribute("GrimReaperChannel") then 
 			Speed = Speed + 20
 		end
 
-		if ZephyrOrb ~= 0 then
-			Speed = Speed + 19
+		if type(ZephyrOrb) == "number" and ZephyrOrb > 0 then
+			Speed = Speed + 18
 		end
 
 		if DamageBoost == true then
@@ -2528,16 +2524,10 @@ task.spawn(function()
 	if KnitGotten == true then
 		local ZephyrUpdate = ZephyrController.updateJump
 
-		ZephyrController.updateJump = function(self, orb, ...)
-			if IsAlive(LocalPlayer) and orb then
-				ZephyrOrb = 1
-			end
-
-			if not IsAlive(LocalPlayer) or not orb then
-				ZephyrOrb = 0
-			end
-
-			return ZephyrUpdate(self, orb, ...)
+		ZephyrController.updateJump = function(self, Orb, ...)
+			ZephyrOrb= IsAlive(LocalPlayer) and Orb or 0
+			
+			return ZephyrUpdate(self, Orb, ...)
 		end
 	end
 end)

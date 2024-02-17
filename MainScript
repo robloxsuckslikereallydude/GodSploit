@@ -816,7 +816,7 @@ end)
 
 repeat task.wait() until Loaded == true
 
-local KnitGotten, KnitClient  = false, nil
+local KnitClientGotten, KnitClient = false, nil
 
 task.spawn(function()
 	KnitClient = debug.getupvalue(require(LocalPlayer.PlayerScripts.TS.knit).setup, 6)
@@ -824,22 +824,39 @@ end)
 
 task.spawn(function()
 	if KnitClient then
-		KnitGotten = true
+		KnitClientGotten = true
 	end
 end)
 
 task.spawn(function()
-	if not KnitGotten then
-		CreateNotification(10, "Your executor might not support some features.")
+	if not KnitClientGotten then
+		CreateNotification(10, "Your executor will not support alot features.")
 	end
 end)
 
-local Client = require(ReplicatedStorage.TS.remotes).default.Client
+local Client, ClientGotten = nil
+
+task.spawn(function()
+	Client = require(ReplicatedStorage.TS.remotes).default.Client
+end)
+
+task.spawn(function()
+	if Client then
+		ClientGotten = true
+	end
+end)
 
 local Camera = WorkSpace.CurrentCamera
 local OrigC0 = ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 
-local HannahPromptTriggerRemote = Client:Get("HannahPromptTrigger")
+local HannahPromptTriggerRemote = nil
+
+task.spawn(function()
+	if ClientGotten then
+		HannahPromptTriggerRemote = Client:Get("HannahPromptTrigger")
+	end	
+end)
+
 local TrinitySetAngelTypeRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SetAngelType")
 local SetObservedChestRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("Inventory/SetObservedChest")
 local ResetCharacterRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ResetCharacter")
@@ -847,7 +864,19 @@ local ChestGiveItemRemote =  ReplicatedStorage:WaitForChild("rbxts_include"):Wai
 local ChestGetItemRemote =  ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("Inventory/ChestGetItem")
 local PurchaseItemRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem")
 local BlockPlacingRemote =  ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@easy-games"):WaitForChild("block-engine"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("PlaceBlock")
-local ClientHandlerStore = require(LocalPlayer.PlayerScripts.TS.ui.store).ClientStore
+
+local ClientHandlerStore, ClientHandlerStoreGotten = nil, false
+
+task.spawn(function()
+	ClientHandlerStore = require(LocalPlayer.PlayerScripts.TS.ui.store).ClientStore
+end)
+
+task.spawn(function()
+	if ClientHandlerStore then
+		ClientHandlerStoreGotten = true
+	end
+end)
+
 local SendMessageRemote = ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
 local DamageBlockRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@easy-games"):WaitForChild("block-engine"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DamageBlock")
 local ProjectileRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ProjectileFire")
@@ -857,7 +886,7 @@ local GroundHitRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForC
 local DamageIndicator
 
 task.spawn(function()
-	if KnitGotten then
+	if KnitClientGotten then
 		DamageIndicator = KnitClient.Controllers.DamageIndicatorController.spawnDamageIndicator
 	end
 end)
@@ -880,7 +909,7 @@ local SwordController
 local FovController
 
 task.spawn(function()
-	if KnitGotten then
+	if KnitClientGotten then
 		BlockPlacementController = KnitClient.Controllers.BlockPlacementController
 		ViewmodelController = KnitClient.Controllers.ViewmodelController
 		ZephyrController = KnitClient.Controllers.WindWalkerController
@@ -1253,7 +1282,13 @@ local function SetCollisions(Value)
 end
 
 local function GetMatchState()
-	return ClientHandlerStore:getState().Game.matchState
+	if ClientHandlerStoreGotten then
+		return ClientHandlerStore:getState().Game.matchState
+	end
+	
+	if not ClientHandlerStoreGotten then
+		return 1
+	end
 end
 
 local function HashFunction(Value)
@@ -1277,9 +1312,15 @@ local function DecimalRound(Number, DigitsPast0)
 end
 
 local function GetQueueType()
-	local State = ClientHandlerStore:getState()
+	if ClientHandlerStoreGotten then
+		local State = ClientHandlerStore:getState()
 
-	return State.Game.queueType or "bedwars_test"
+		return State.Game.queueType or "bedwars_test"
+	end
+	
+	if not ClientHandlerStoreGotten then
+		return "bedwars_test"
+	end
 end
 
 function KillHumanoid(Time)
@@ -2321,11 +2362,11 @@ task.spawn(function()
 		end)
 
 		task.spawn(function()
-			if Settings.Fov.Value == true and KnitGotten == true then 
+			if Settings.Fov.Value == true and KnitClientGotten == true then 
 				FovController:setFOV(Settings.Fov.Fov) 
 			end 
 
-			if Settings.Fov.Value == false and KnitGotten == true then 
+			if Settings.Fov.Value == false and KnitClientGotten == true and ClientHandlerStoreGotten then 
 				FovController:setFOV(ClientHandlerStore:getState().Settings.fov) 
 			end
 		end)
@@ -2338,7 +2379,7 @@ task.spawn(function()
 
 		if Settings.AutoClicker.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
 			task.spawn(function()
-				if KnitGotten == true and ClientHandlerStore:getstate().Inventory.observedInventory == "block" and BlockPlacementController.blockPlacer.clientManager then
+				if KnitClientGotten == true and ClientHandlerStoreGotten and ClientHandlerStore:getstate().Inventory.observedInventory == "block" and BlockPlacementController.blockPlacer.clientManager then
 					local MouseInformation = BlockPlacementController.blockPlacer.clientManager:getBlockSelector():getMouseInfo(0)
 
 					if MouseInformation then
@@ -2348,7 +2389,7 @@ task.spawn(function()
 			end)
 
 			task.spawn(function()
-				if KnitGotten == true then
+				if KnitClientGotten == true then
 					SwordController:swingSwordAtMouse()
 				end				
 			end)
@@ -2511,7 +2552,7 @@ task.spawn(function()
 		task.wait()
 
 		if IsAlive(LocalPlayer) and Settings.Nuker.Value == true and Settings.Nuker.CustomAnimation == true and NearestBedFound and CanSeeNearestBed and not NearestEntityFound then
-			task.wait(0.35)
+			task.wait(0.3)
 			
 			ViewmodelController:playAnimation(15)
 		end		
@@ -2521,7 +2562,7 @@ end)
 task.spawn(function()
 	repeat task.wait() until GetMatchState() ~= 0
 
-	if KnitGotten == true then
+	if KnitClientGotten == true then
 		local ZephyrUpdate = ZephyrController.updateJump
 
 		ZephyrController.updateJump = function(self, Orb, ...)
@@ -2641,7 +2682,7 @@ task.spawn(function()
 
 		local OldCpsFunction = nil
 
-		if Settings.AutoClicker.Value == true and KnitGotten == true then
+		if Settings.AutoClicker.Value == true and KnitClientGotten == true then
 			SwordController.isClickingTooFast = function(self) 
 				self.lastSwing = tick()
 
@@ -2649,7 +2690,7 @@ task.spawn(function()
 			end
 		end
 
-		if Settings.AutoClicker.Value == false and KnitGotten == true then
+		if Settings.AutoClicker.Value == false and KnitClientGotten == true then
 			SwordController.isClickingTooFast = OldCpsFunction
 		end
 	end)
@@ -2951,7 +2992,7 @@ task.spawn(function()
 
 		local OldSprintFunction
 
-		if Settings.Sprint.Value == true and KnitGotten == true then
+		if Settings.Sprint.Value == true and KnitClientGotten == true then
 			OldSprintFunction = SprintController.stopSprinting
 
 			SprintController.stopSprinting = function(...)
@@ -2970,7 +3011,7 @@ task.spawn(function()
 			end)
 		end
 
-		if Settings.Sprint.Value == false and KnitGotten == true then
+		if Settings.Sprint.Value == false and KnitClientGotten == true then
 			SprintController.stopSprinting = OldSprintFunction
 			SprintController:stopSprinting()
 		end
@@ -4176,11 +4217,11 @@ task.spawn(function()
 	local Fov, DropDownButton, LayoutOrder, UIGradient = CreateToggle(UtilityTab, "Fov", Settings.Fov.Value, function(CallBack)
 		Settings.Fov.Value = CallBack
 
-		if Settings.Fov.Value == true and KnitGotten == true then
+		if Settings.Fov.Value == true and KnitClientGotten == true then
 			FovController:setFOV(Settings.Fov.Fov)
 		end
 
-		if Settings.Fov.Value == false and KnitGotten == true then
+		if Settings.Fov.Value == false and KnitClientGotten == true and ClientHandlerStoreGotten then
 			FovController:setFOV(ClientHandlerStore:getState().Settings.fov)
 		end
 	end)
@@ -4233,7 +4274,7 @@ task.spawn(function()
 				InstanceUI = CreateSlider(UtilityTab, "Fov", Settings.Fov.Fov, 120, LayoutOrder + 2, function(CallBack)
 					Settings.Fov.Fov = CallBack
 
-					if Settings.Fov.Value == true and KnitGotten == true then
+					if Settings.Fov.Value == true and KnitClientGotten == true then
 						FovController:setFOV(Settings.Fov.Fov)
 					end
 				end)

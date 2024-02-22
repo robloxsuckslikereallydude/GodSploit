@@ -44,8 +44,8 @@ task.spawn(function()
 	Watermark.Font = Enum.Font.GothamBold
 	Watermark.Text = "AlSploit Anniversary 🥳"
 	Watermark.TextColor3 = Color3.fromHSV(tick() % 5 / 5, 1, 1)
-	Watermark.TextScaled = false
-	Watermark.TextSize = 25.000
+	Watermark.TextScaled = true
+	Watermark.TextSize = 14.000
 	Watermark.TextWrapped = true
 	
 	UITextSizeConstraint.Parent = Watermark
@@ -187,7 +187,7 @@ local function CreateTab(Name)
 		repeat
 			task.wait(0.001)
 
-			Title.TextColor3 = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+			--Title.TextColor3 = Color3.fromHSV(tick() % 5 / 5, 1, 1)
 		until not Title
 	end)
 

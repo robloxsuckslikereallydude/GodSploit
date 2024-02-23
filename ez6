@@ -2322,7 +2322,7 @@ task.spawn(function()
 
 		task.spawn(function()		
 			if Settings.Aimbot.Value == true and IsAlive(LocalPlayer) then	
-				local NearestPlayer, NearestPlayerDistance = FindNearestEntity(math.huge)
+				local NearestPlayer, NearestPlayerDistance = FindNearestPlayer(math.huge)
 
 				if NearestPlayer and (AntiVoidPart and NearestPlayer.Character.PrimaryPart.Position.Y >= AntiVoidPart.Position.Y or true) and not NearestPlayer.Character:FindFirstChildOfClass("ForceField") and NearestPlayerDistance > 18 then
 					local BestBow = GetBow()
@@ -4709,18 +4709,6 @@ task.spawn(function()
 				AntiVoidPart.Color = Color3.new(0.666667, 0, 1)
 				AntiVoidPart.CanCollide = false
 				AntiVoidPart.Anchored = true
-				
-				task.spawn(function()
-					repeat
-						task.wait()
-						
-						if AntiVoidPart then
-							task.wait(0.001)
-							
-							AntiVoidPart.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)
-						end
-					until not AntiVoidPart
-				end)
 
 				for i, v in next, CollectionService:GetTagged("block") do
 					local NewRay = WorkSpace:Raycast(v.Position + Vector3.new(0, 800, 0), Vector3.new(0, -1000, 0), BlockRaycastParameters)

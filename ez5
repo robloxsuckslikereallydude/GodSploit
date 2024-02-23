@@ -1072,7 +1072,7 @@ function FindNearestPlayer(MaxDistance)
 
 			if Distance < NearestPlayerDistance then
 				NearestPlayerDistance = Distance
-				NearestPlayer = v				
+				NearestPlayer = v
 			end
 		end
 	end
@@ -4712,7 +4712,11 @@ task.spawn(function()
 				
 				task.spawn(function()
 					repeat
+						task.wait()
+						
 						if AntiVoidPart then
+							task.wait(0.001)
+							
 							AntiVoidPart.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)
 						end
 					until not AntiVoidPart

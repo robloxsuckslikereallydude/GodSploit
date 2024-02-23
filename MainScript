@@ -19,81 +19,114 @@ local ContainerFrameUIListLayout = Instance.new("UIListLayout")
 local NotificationContainer = Instance.new("Frame")
 local NotificationContainerUIListLayout = Instance.new("UIListLayout")
 
+local Watermark = Instance.new("TextLabel")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+
 local DefaultLayoutOrder = 0
 
-GodSploit.Name = "GodSploit"
-GodSploit.Parent = LocalPlayer:WaitForChild("PlayerGui")
-GodSploit.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-GodSploit.ResetOnSpawn = false
+task.spawn(function()
+	task.spawn(function()
+		repeat
+			task.wait(0.001)
 
-ContainerFrame.Name = "ContainerFrame"
-ContainerFrame.Parent = GodSploit
-ContainerFrame.BackgroundColor3 = Color3.new(255, 255, 255)
-ContainerFrame.BackgroundTransparency = 1.000
-ContainerFrame.BorderColor3 = Color3.new(0, 0, 0)
-ContainerFrame.BorderSizePixel = 0
-ContainerFrame.Position = UDim2.new(0, 0, 0, 0)
-ContainerFrame.Size = UDim2.new(1, 0, 1, 0)
-ContainerFrame.Visible = false
+			Watermark.TextColor3 = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+		until not game
+	end)
+	
+	Watermark.Name = "Watermark"
+	Watermark.Parent = GodSploit
+	Watermark.BackgroundColor3 = Color3.new(255, 255, 255)
+	Watermark.BackgroundTransparency = 1.000
+	Watermark.BorderColor3 = Color3.new(0, 0, 0)
+	Watermark.BorderSizePixel = 0
+	Watermark.Position = UDim2.new(0.760, 0, 0, 0)
+	Watermark.Size = UDim2.new(0.218, 0, 0.061, 0)
+	Watermark.Font = Enum.Font.GothamBold
+	Watermark.Text = "AlSploit Anniversary 🥳"
+	Watermark.TextColor3 = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+	Watermark.TextScaled = true
+	Watermark.TextSize = 14.000
+	Watermark.TextWrapped = true
+	
+	UITextSizeConstraint.Parent = Watermark
+	UITextSizeConstraint.MaxTextSize = 25
 
-ContainerFrameUIListLayout.Parent = ContainerFrame
-ContainerFrameUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-ContainerFrameUIListLayout.Padding = UDim.new(0, 50)
-ContainerFrameUIListLayout.FillDirection = Enum.FillDirection.Horizontal
-ContainerFrameUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+	GodSploit.Name = "GodSploit"
+	GodSploit.Parent = LocalPlayer:WaitForChild("PlayerGui")
+	GodSploit.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	GodSploit.ResetOnSpawn = false
 
-NotificationContainer.Name = "NotificationContainer"
-NotificationContainer.Parent = GodSploit
-NotificationContainer.BackgroundColor3 = Color3.new(255, 255, 255)
-NotificationContainer.BackgroundTransparency = 1.000
-NotificationContainer.BorderColor3 = Color3.new(0, 0, 0)
-NotificationContainer.BorderSizePixel = 0
-NotificationContainer.Position = UDim2.new(0.8, 0, 0, 0)
-NotificationContainer.Size = UDim2.new(0.2, 0, 0.980487823, 0)
+	ContainerFrame.Name = "ContainerFrame"
+	ContainerFrame.Parent = GodSploit
+	ContainerFrame.BackgroundColor3 = Color3.new(255, 255, 255)
+	ContainerFrame.BackgroundTransparency = 1.000
+	ContainerFrame.BorderColor3 = Color3.new(0, 0, 0)
+	ContainerFrame.BorderSizePixel = 0
+	ContainerFrame.Position = UDim2.new(0, 0, 0, 0)
+	ContainerFrame.Size = UDim2.new(1, 0, 1, 0)
+	ContainerFrame.Visible = false
 
-NotificationContainerUIListLayout.Parent = NotificationContainer
-NotificationContainerUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-NotificationContainerUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-NotificationContainerUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-NotificationContainerUIListLayout.Padding = UDim.new(0, 10)
+	ContainerFrameUIListLayout.Parent = ContainerFrame
+	ContainerFrameUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	ContainerFrameUIListLayout.Padding = UDim.new(0, 50)
+	ContainerFrameUIListLayout.FillDirection = Enum.FillDirection.Horizontal
+	ContainerFrameUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+	NotificationContainer.Name = "NotificationContainer"
+	NotificationContainer.Parent = GodSploit
+	NotificationContainer.BackgroundColor3 = Color3.new(255, 255, 255)
+	NotificationContainer.BackgroundTransparency = 1.000
+	NotificationContainer.BorderColor3 = Color3.new(0, 0, 0)
+	NotificationContainer.BorderSizePixel = 0
+	NotificationContainer.Position = UDim2.new(0.8, 0, 0, 0)
+	NotificationContainer.Size = UDim2.new(0.2, 0, 0.980487823, 0)
+
+	NotificationContainerUIListLayout.Parent = NotificationContainer
+	NotificationContainerUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+	NotificationContainerUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	NotificationContainerUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+	NotificationContainerUIListLayout.Padding = UDim.new(0, 10)
+end)
 
 local UIAspectRatioConstraintOpen = Instance.new("UIAspectRatioConstraint")
 local UIStroke = Instance.new("UIStroke")
 local UICorner = Instance.new("UICorner")
 local Open = Instance.new("ImageButton")
-
-UIStroke.Parent = Open
-UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-UIStroke.Thickness = 2
-UIStroke.Color = Color3.new(1, 0.666667, 0)
-
-Open.Name = "Open"
-Open.Parent = GodSploit
-Open.BackgroundColor3 = Color3.new(255, 255, 255)
-Open.BorderColor3 = Color3.new(0, 0, 0)
-Open.BorderSizePixel = 0
-Open.Position = UDim2.new(0.963096738, 0, 0.351765305, 0)
-Open.Size = UDim2.new(0.0329854637, 0, 0.0837961882, 0)
-Open.Image = "rbxassetid://16296032484"
-
-UICorner.CornerRadius = UDim.new(0, 6)
-UICorner.Parent = Open
-
-UIAspectRatioConstraintOpen.Parent = Open
-UIAspectRatioConstraintOpen.AspectRatio = 1
-
 local Blur = Instance.new("BlurEffect")
 
-Blur.Parent = LightingService
-Blur.Enabled = false
-Blur.Size = 16
-
 task.spawn(function()
-	Open.Activated:Connect(function()
-		ContainerFrame.Visible = not ContainerFrame.Visible
-		Blur.Enabled = not Blur.Enabled
+	UIStroke.Parent = Open
+	UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	UIStroke.Thickness = 2
+	UIStroke.Color = Color3.new(1, 0.666667, 0)
+
+	Open.Name = "Open"
+	Open.Parent = GodSploit
+	Open.BackgroundColor3 = Color3.new(255, 255, 255)
+	Open.BorderColor3 = Color3.new(0, 0, 0)
+	Open.BorderSizePixel = 0
+	Open.Position = UDim2.new(0.963096738, 0, 0.351765305, 0)
+	Open.Size = UDim2.new(0.0329854637, 0, 0.0837961882, 0)
+	Open.Image = "rbxassetid://16296032484"
+
+	UICorner.CornerRadius = UDim.new(0, 6)
+	UICorner.Parent = Open
+
+	UIAspectRatioConstraintOpen.Parent = Open
+	UIAspectRatioConstraintOpen.AspectRatio = 1
+
+	Blur.Parent = LightingService
+	Blur.Enabled = false
+	Blur.Size = 16
+
+	task.spawn(function()
+		Open.Activated:Connect(function()
+			ContainerFrame.Visible = not ContainerFrame.Visible
+			Blur.Enabled = not Blur.Enabled
+		end)
 	end)
 end)
+
 
 local function CreateTab(Name)
 	local Tab = Instance.new("Frame")
@@ -102,7 +135,6 @@ local function CreateTab(Name)
 	local ModulesContainer = Instance.new("Frame")	
 	local UIListLayout = Instance.new("UIListLayout")	
 	local Title = Instance.new("TextLabel")
-	local UIGradient = Instance.new("UIGradient")
 
 	Tab.Name = "Tab"
 	Tab.Parent = ContainerFrame
@@ -147,13 +179,17 @@ local function CreateTab(Name)
 	Title.Size = UDim2.new(0.99999994, 0, 0.742857158, 0)
 	Title.Font = Enum.Font.GothamBold
 	Title.Text = Name
-	Title.TextColor3 = Color3.new(255, 255, 255)
+	Title.TextColor3 = Color3.fromHSV(tick() % 5 / 5, 1, 1)
 	Title.TextSize = 17
 	Title.TextWrapped = true
 
-	UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
-	UIGradient.Rotation = 90
-	UIGradient.Parent = Title
+	task.spawn(function()
+		repeat
+			task.wait(0.001)
+
+			Title.TextColor3 = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+		until not Title
+	end)
 
 	return ModulesContainer
 end
@@ -172,7 +208,14 @@ local function CreateToggle(Parent, Name, DefaultValue, CallBack)
 		task.spawn(function()
 			if Value == true then
 				CallBackValue = true
-				UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
+
+				task.spawn(function()
+					repeat
+						task.wait(0.001)
+
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromHSV(tick() % 5 / 5, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.fromHSV(tick() % 5 / 5, 1, 1))}
+					until CallBackValue == false
+				end)
 
 				CallBack(true)
 			end
@@ -181,7 +224,14 @@ local function CreateToggle(Parent, Name, DefaultValue, CallBack)
 		task.spawn(function()
 			if Value == false then
 				CallBackValue = false
-				UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+				
+				task.spawn(function()
+					repeat
+						task.wait(0.001)
+
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+					until CallBackValue == true
+				end)				
 
 				CallBack(false)
 			end
@@ -660,7 +710,7 @@ local function CreateFlyHud()
 	return Background, Text, Display
 end
 
-function CreateOutline(Player)
+local function CreateOutline(Player)
 	if IsAlive(Player) then
 		local BillBoard = Instance.new("BillboardGui")
 
@@ -679,6 +729,14 @@ function CreateOutline(Player)
 		Stroke.Thickness = 1.5
 		Stroke.Color = Color3.new(1, 0.666667, 0)
 		Stroke.Transparency = 0
+
+		task.spawn(function()
+			repeat
+				task.wait(0.001)
+
+				Stroke.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+			until not Stroke
+		end)
 
 		local UICorner = Instance.new("UICorner")
 
@@ -1014,7 +1072,7 @@ function FindNearestPlayer(MaxDistance)
 
 			if Distance < NearestPlayerDistance then
 				NearestPlayerDistance = Distance
-				NearestPlayer = v				
+				NearestPlayer = v
 			end
 		end
 	end
@@ -1129,16 +1187,16 @@ local function FindNearestChest(MaxDistance)
 end
 
 local function ShootProjectile(Item, Projectile)
-	local NearestEntity = FindNearestEntity(math.huge)
+	local NearestPlayer = FindNearestPlayer()
 
-	if NearestEntity and not NearestEntity:FindFirstChildOfClass("ForceField") then
+	if NearestPlayer and not NearestPlayer:FindFirstChildOfClass("ForceField") then
 		local Args = {
 			[1] = Item,
 			[2] = Projectile,
 			[3] = Projectile,
-			[4] = (NearestEntity:FindFirstChild("Head").Position or NearestEntity.PrimaryPart.Position),
-			[5] = (NearestEntity:FindFirstChild("Head").Position or NearestEntity.PrimaryPart.Position),
-			[6] = Vector3.new(0, (NearestEntity:FindFirstChild("Head").Position and -10 or -25), 0),
+			[4] = (NearestPlayer.Character:FindFirstChild("Head").Position or NearestPlayer.Character.PrimaryPart.Position),
+			[5] = (NearestPlayer.Character:FindFirstChild("Head").Position or NearestPlayer.Character.PrimaryPart.Position),
+			[6] = Vector3.new(0, (NearestPlayer.Character:FindFirstChild("Head").Position and -10 or -25), 0),
 			[7] = HttpService:GenerateGUID(true),
 			[8] = {["drawDurationSeconds"] = 0.96, ["shotId"] = HttpService:GenerateGUID(false)},
 			[9] = (WorkSpace:GetServerTimeNow() - 0.11)
@@ -1956,7 +2014,7 @@ local function SwordHit(Entity, Weapon, NearestEntityDistance)
 	task.spawn(function()
 		if KillAuraAnimationCooldown and Settings.KillAura.CustomAnimation == true then
 			KillAuraAnimationCooldown = false
-			
+
 			PlayAnimation(Animations.KillAura)
 
 			KillAuraAnimationCooldown = true
@@ -2264,9 +2322,9 @@ task.spawn(function()
 
 		task.spawn(function()		
 			if Settings.Aimbot.Value == true and IsAlive(LocalPlayer) then	
-				local NearestEntity, NearestEntityDistance = FindNearestEntity(math.huge)
+				local NearestPlayer, NearestPlayerDistance = FindNearestPlayer(math.huge)
 
-				if NearestEntity and (AntiVoidPart and NearestEntity.PrimaryPart.Position.Y >= AntiVoidPart.Position.Y or true) and not NearestEntity:FindFirstChildOfClass("ForceField") and NearestEntityDistance > 18 then
+				if NearestPlayer and (AntiVoidPart and NearestPlayer.Character.PrimaryPart.Position.Y >= AntiVoidPart.Position.Y or true) and not NearestPlayer.Character:FindFirstChildOfClass("ForceField") and NearestPlayerDistance > 18 then
 					local BestBow = GetBow()
 
 					if BestBow and HasItem(BestBow.itemType) and HasItem("arrow") then
@@ -4398,13 +4456,13 @@ task.spawn(function()
 		task.spawn(function()
 			if Settings.NoNameTag.Value == true then
 				if IsAlive(LocalPlayer) and LocalPlayer.Character.Head:FindFirstChild("Nametag") then
-					
+
 					if ReplicatedStorage:FindFirstChild("Nametag") and LocalPlayer.Character.Head:FindFirstChild("Nametag") then
 						ReplicatedStorage:FindFirstChild("Nametag"):Destroy()
 					end
-					
+
 					LocalPlayer.Character.Head.Nametag.Parent = ReplicatedStorage
-					
+
 					task.spawn(function()
 						LocalPlayer.CharacterAdded:Connect(function()
 							task.wait(0.3)
@@ -4413,7 +4471,7 @@ task.spawn(function()
 								if ReplicatedStorage:FindFirstChild("Nametag") and LocalPlayer.Character.Head:FindFirstChild("Nametag") then
 									ReplicatedStorage:FindFirstChild("Nametag"):Destroy()
 								end
-								
+
 								LocalPlayer.Character.Head.Nametag.Parent = ReplicatedStorage								
 							end
 						end)
@@ -5072,7 +5130,7 @@ task.spawn(function()
 			end
 		end)
 	end)
-	
+
 	task.spawn(function()
 		local InstanceUI
 		local Value = false
@@ -5189,4 +5247,16 @@ task.spawn(function()
 	task.spawn(function()
 		setfpscap(999)
 	end)
+end)
+
+task.spawn(function()
+	repeat
+		task.wait(0.001)
+
+		for i, v in next, GodSploit:GetDescendants() do
+			if v:IsA("UIStroke") and v.Parent.Name ~= "Bar" then
+				v.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+			end
+		end
+	until not game
 end)

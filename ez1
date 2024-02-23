@@ -214,7 +214,7 @@ local function CreateToggle(Parent, Name, DefaultValue, CallBack)
 						task.wait(0.001)
 
 						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromHSV(tick() % 5 / 5, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.fromHSV(tick() % 5 / 5, 1, 1))}
-					until not Value
+					until CallBackValue == false
 				end)
 
 				CallBack(true)

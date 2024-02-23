@@ -1187,16 +1187,16 @@ local function FindNearestChest(MaxDistance)
 end
 
 local function ShootProjectile(Item, Projectile)
-	local NearestEntity = FindNearestEntity(math.huge)
+	local NearestPlayer = FindNearestPlayer()
 
-	if NearestEntity and not NearestEntity:FindFirstChildOfClass("ForceField") then
+	if NearestPlayer and not NearestPlayer:FindFirstChildOfClass("ForceField") then
 		local Args = {
 			[1] = Item,
 			[2] = Projectile,
 			[3] = Projectile,
-			[4] = (NearestEntity:FindFirstChild("Head").Position or NearestEntity.PrimaryPart.Position),
-			[5] = (NearestEntity:FindFirstChild("Head").Position or NearestEntity.PrimaryPart.Position),
-			[6] = Vector3.new(0, (NearestEntity:FindFirstChild("Head").Position and -10 or -25), 0),
+			[4] = (NearestPlayer.Character:FindFirstChild("Head").Position or NearestPlayer.Character.PrimaryPart.Position),
+			[5] = (NearestPlayer.Character:FindFirstChild("Head").Position or NearestPlayer.Character.PrimaryPart.Position),
+			[6] = Vector3.new(0, (NearestPlayer.Character:FindFirstChild("Head").Position and -10 or -25), 0),
 			[7] = HttpService:GenerateGUID(true),
 			[8] = {["drawDurationSeconds"] = 0.96, ["shotId"] = HttpService:GenerateGUID(false)},
 			[9] = (WorkSpace:GetServerTimeNow() - 0.11)
@@ -2322,9 +2322,9 @@ task.spawn(function()
 
 		task.spawn(function()		
 			if Settings.Aimbot.Value == true and IsAlive(LocalPlayer) then	
-				local NearestEntity, NearestEntityDistance = FindNearestEntity(math.huge)
+				local NearestPlayer, NearestPlayerDistance = FindNearestEntity(math.huge)
 
-				if NearestEntity and (AntiVoidPart and NearestEntity.PrimaryPart.Position.Y >= AntiVoidPart.Position.Y or true) and not NearestEntity:FindFirstChildOfClass("ForceField") and NearestEntityDistance > 18 then
+				if NearestPlayer and (AntiVoidPart and NearestPlayer.Character.PrimaryPart.Position.Y >= AntiVoidPart.Position.Y or true) and not NearestPlayer.Character:FindFirstChildOfClass("ForceField") and NearestPlayerDistance > 18 then
 					local BestBow = GetBow()
 
 					if BestBow and HasItem(BestBow.itemType) and HasItem("arrow") then
@@ -4709,6 +4709,14 @@ task.spawn(function()
 				AntiVoidPart.Color = Color3.new(0.666667, 0, 1)
 				AntiVoidPart.CanCollide = false
 				AntiVoidPart.Anchored = true
+				
+				task.spawn(function()
+					repeat
+						if AntiVoidPart then
+							AntiVoidPart.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+						end
+					until not AntiVoidPart
+				end)
 
 				for i, v in next, CollectionService:GetTagged("block") do
 					local NewRay = WorkSpace:Raycast(v.Position + Vector3.new(0, 800, 0), Vector3.new(0, -1000, 0), BlockRaycastParameters)

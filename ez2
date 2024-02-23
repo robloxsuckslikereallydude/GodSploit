@@ -224,7 +224,12 @@ local function CreateToggle(Parent, Name, DefaultValue, CallBack)
 		task.spawn(function()
 			if Value == false then
 				CallBackValue = false
-				UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+				
+				repeat
+					task.wait(0.001)
+					
+					UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+				until CallBackValue == true
 
 				CallBack(false)
 			end

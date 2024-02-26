@@ -5278,7 +5278,7 @@ task.spawn(function()
 	local ClientCrasher = {}
 	local StopCrashDelay = {Value = 4}
 
-	local Tick = true
+	local Tick = tick()
 
 	task.spawn(function()
 		LocalPlayer.Character:Destroy()

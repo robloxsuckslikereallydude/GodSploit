@@ -5274,21 +5274,15 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-	local ProValue = {Value = 30000}
-	local ClientCrasher = {}
-	local StopCrashDelay = {Value = 4}
-
 	local Tick = tick()
 
 	task.spawn(function()
-		LocalPlayer.Character:Destroy()
-
 		task.wait(2)
 
 		repeat 
 			task.wait()
 			
-			for i = 1, ProValue.Value do
+			for i = 1, 30000 do
 				local args = {
 					[1] = {
 						["data"] = {

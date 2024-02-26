@@ -5274,18 +5274,20 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-	local block = "DisguisedPlayerBlock_" .. game.Players.LocalPlayer.UserId
 	local ProValue = {Value = 30000}
 	local ClientCrasher = {}
 	local StopCrashDelay = {Value = 4}
-	shared.Crashing = false
+
+	local Tick = true
 
 	task.spawn(function()
 		LocalPlayer.Character:Destroy()
 
 		task.wait(2)
 
-		repeat task.wait()
+		repeat 
+			task.wait()
+			
 			for i = 1, ProValue.Value do
 				local args = {
 					[1] = {
@@ -5297,7 +5299,7 @@ task.spawn(function()
 
 				game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("MimicBlock"):FireServer(unpack(args))
 			end
-		until (not shared.Crashing)
+		until (tick() - Tick) >= 4
 		
 		game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ResetCharacter"):FireServer()
 	end)

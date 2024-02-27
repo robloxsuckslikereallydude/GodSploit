@@ -4575,6 +4575,7 @@ task.spawn(function()
 				Sky.SkyboxUp = "http://www.roblox.com/asset/?id=" .. ID
 
 				Sky.Parent = LightingService
+				Sky.Name = "GalaxySky"
 			end
 		end
 
@@ -4646,7 +4647,9 @@ task.spawn(function()
 				Sky.SunAngularSize = 11
 				Sky.MoonTextureId = "rbxassetid://8139665943"
 				Sky.MoonAngularSize = 30
-				Sky.Parent = LightingService
+				
+				Sky.Parent = LightingService			
+				Sky.Name = "WinterSky"
 			end
 		end
 

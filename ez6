@@ -902,7 +902,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-	if HotBarHealthBarGotten then
+	if HotBarHealthBar then
 		HotBarHealthBarGotten = true
 	end
 end)
@@ -2411,12 +2411,6 @@ task.spawn(function()
 				end
 			end
 		end)
-
-		task.spawn(function()
-			if Settings.AutoBuy.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
-				AutoBuy()
-			end			
-		end)
 	until not game
 end)
 
@@ -2628,6 +2622,12 @@ task.spawn(function()
 					end
 				end)
 			end
+		end)
+		
+		task.spawn(function()
+			if Settings.AutoBuy.Value == true and IsAlive(LocalPlayer) and GetMatchState() ~= 0 then
+				AutoBuy()
+			end			
 		end)
 	until not game
 end)
@@ -4491,6 +4491,57 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+	local CustomHealthBar, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "CustomHealthBar", Settings.CustomHealthBar.Value, function(CallBack)
+		Settings.CustomHealthBar.Value = CallBack
+
+		if Settings.CustomHealthBar.Value == true and HotBarHealthBarGotten == true then
+			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
+		end
+
+		if Settings.CustomHealthBar.Value == false and HotBarHealthBarGotten == true then
+			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
+		end
+	end)
+
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateKeyBind(WorldTab, Settings.CustomHealthBar.KeyBind, LayoutOrder + 1, function(CallBack)
+					Settings.CustomHealthBar.KeyBind = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
+
+	task.spawn(function()
+		UserInputService.InputBegan:Connect(function(Input)
+			if not UserInputService:GetFocusedTextBox() then
+				if Input.KeyCode.Name == Settings.CustomHealthBar.KeyBind then
+					Settings.CustomHealthBar.Value = not Settings.CustomHealthBar.Value
+
+					if Settings.CustomHealthBar.Value == true then
+						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
+					end
+
+					if Settings.CustomHealthBar.Value == false then
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+					end
+				end
+			end
+		end)
+	end)
+end)
+
+task.spawn(function()
 	local NoNameTag, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "NoNameTag", Settings.NoNameTag.Value, function(CallBack)
 		Settings.NoNameTag.Value = CallBack
 
@@ -4560,57 +4611,6 @@ task.spawn(function()
 					end
 
 					if Settings.NoNameTag.Value == false then
-						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
-					end
-				end
-			end
-		end)
-	end)
-end)
-
-task.spawn(function()
-	local CustomHealthBar, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "CustomHealthBar", Settings.CustomHealthBar.Value, function(CallBack)
-		Settings.CustomHealthBar.Value = CallBack
-		
-		if Settings.CustomHealthBar.Value == true and HotBarHealthBarGotten == true then
-			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
-		end
-		
-		if Settings.CustomHealthBar.Value == false and HotBarHealthBarGotten == true then
-			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
-		end
-	end)
-
-	task.spawn(function()
-		local InstanceUI
-		local Value = false
-
-		DropDownButton.Activated:Connect(function()
-			Value = not Value
-
-			if Value == true then
-				InstanceUI = CreateKeyBind(WorldTab, Settings.CustomHealthBar.KeyBind, LayoutOrder + 1, function(CallBack)
-					Settings.CustomHealthBar.KeyBind = CallBack
-				end)
-			end
-
-			if Value == false then
-				InstanceUI:Destroy()
-			end
-		end)
-	end)
-
-	task.spawn(function()
-		UserInputService.InputBegan:Connect(function(Input)
-			if not UserInputService:GetFocusedTextBox() then
-				if Input.KeyCode.Name == Settings.CustomHealthBar.KeyBind then
-					Settings.CustomHealthBar.Value = not Settings.CustomHealthBar.Value
-
-					if Settings.CustomHealthBar.Value == true then
-						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
-					end
-
-					if Settings.CustomHealthBar.Value == false then
 						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
 					end
 				end

@@ -5279,6 +5279,7 @@ task.spawn(function()
 			v:Remove()
 		end
 	end
+	
 	local sky = Instance.new('Sky')
 	sky.StarCount = 5000
 	sky.SkyboxUp = 'rbxassetid://8139676647'
@@ -5303,7 +5304,7 @@ task.spawn(function()
 	local atmosphere = Instance.new('Atmosphere')
 	atmosphere.Density = 0.3
 	atmosphere.Offset = 0.25
-	atmosphere.Color = Color3.fromRGB(198, 198, 198)
+	atmosphere.Color = Color3.fromRGB(170, 85, 255)
 	atmosphere.Decay = Color3.fromRGB(104, 112, 124)
 	atmosphere.Glare = 0
 	atmosphere.Haze = 0

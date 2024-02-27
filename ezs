@@ -5316,7 +5316,7 @@ task.spawn(function()
 	damagetab.blowUpSize = 32
 	damagetab.blowUpCompleteDuration = 0
 	damagetab.anchoredDuration = 0
-	debug.setconstant(DamageIndicator, 83, Enum.Font.LuckiestGuy)
+	debug.setconstant(DamageIndicator, 83, Enum.Font.GothamBold)
 	debug.setconstant(DamageIndicator, 102, 'Enabled')
 	debug.setconstant(DamageIndicator, 118, 0.3)
 	debug.setconstant(DamageIndicator, 128, 0.5)

@@ -4491,7 +4491,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-	local CustomHealthBar, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "CustomHealthBar", Settings.CustomHealthBar.Value, function(CallBack)
+	local CustomHealthBar, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "CustomHealth", Settings.CustomHealthBar.Value, function(CallBack)
 		Settings.CustomHealthBar.Value = CallBack
 
 		if Settings.CustomHealthBar.Value == true and HotBarHealthBarGotten == true then
@@ -4499,7 +4499,7 @@ task.spawn(function()
 		end
 
 		if Settings.CustomHealthBar.Value == false and HotBarHealthBarGotten == true then
-			debug.setconstant(HotBarHealthBar, 16, 16755200)
+			debug.setconstant(HotBarHealthBar, 16, 16711680)
 		end
 	end)
 

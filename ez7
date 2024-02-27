@@ -4495,11 +4495,11 @@ task.spawn(function()
 		Settings.CustomHealthBar.Value = CallBack
 
 		if Settings.CustomHealthBar.Value == true and HotBarHealthBarGotten == true then
-			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
+			debug.setconstant(HotBarHealthBar, 16, 16755200)
 		end
 
 		if Settings.CustomHealthBar.Value == false and HotBarHealthBarGotten == true then
-			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
+			debug.setconstant(HotBarHealthBar, 16, 16755200)
 		end
 	end)
 

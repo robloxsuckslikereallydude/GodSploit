@@ -895,6 +895,18 @@ task.spawn(function()
 	end
 end)
 
+local HotBarHealthBar, HotBarHealthBarGotten = nil, false
+
+task.spawn(function()
+	HotBarHealthBar = require(LocalPlayer.PlayerScripts.TS.controllers.global.hotbar.ui.healthbar["hotbar-healthbar"]).HotbarHealthbar.render
+end)
+
+task.spawn(function()
+	if HotBarHealthBarGotten then
+		HotBarHealthBarGotten = true
+	end
+end)
+
 local ProjectileMeta = require(ReplicatedStorage.TS.projectile["projectile-meta"]).ProjectileMeta
 local SwordHitRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SwordHit")
 local CombatConstant = require(ReplicatedStorage.TS.combat["combat-constant"]).CombatConstant
@@ -4557,6 +4569,57 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+	local CustomHealthBar, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "CustomHealthBar", Settings.CustomHealthBar.Value, function(CallBack)
+		Settings.CustomHealthBar.Value = CallBack
+		
+		if Settings.CustomHealthBar.Value == true and HotBarHealthBarGotten == true then
+			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
+		end
+		
+		if Settings.CustomHealthBar.Value == false and HotBarHealthBarGotten == true then
+			debug.setconstant(HotBarHealthBarGotten, 16, 16755200)
+		end
+	end)
+
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateKeyBind(WorldTab, Settings.CustomHealthBar.KeyBind, LayoutOrder + 1, function(CallBack)
+					Settings.CustomHealthBar.KeyBind = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
+
+	task.spawn(function()
+		UserInputService.InputBegan:Connect(function(Input)
+			if not UserInputService:GetFocusedTextBox() then
+				if Input.KeyCode.Name == Settings.CustomHealthBar.KeyBind then
+					Settings.CustomHealthBar.Value = not Settings.CustomHealthBar.Value
+
+					if Settings.CustomHealthBar.Value == true then
+						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
+					end
+
+					if Settings.CustomHealthBar.Value == false then
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+					end
+				end
+			end
+		end)
+	end)
+end)
+
+task.spawn(function()
 	local GalaxySky, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "GalaxySky", Settings.GalaxySky.Value, function(CallBack)
 		Settings.GalaxySky.Value = CallBack
 
@@ -4686,7 +4749,7 @@ task.spawn(function()
 				Sky.MoonTextureId = "rbxassetid://8139665943"
 				Sky.MoonAngularSize = 30
 
-				Sky.Parent = LightingService			
+				Sky.Parent = LightingService
 				Sky.Name = "WinterSky"
 			end
 		end

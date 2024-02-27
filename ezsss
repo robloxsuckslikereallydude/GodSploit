@@ -5305,7 +5305,7 @@ task.spawn(function()
 	atmosphere.Density = 0.3
 	atmosphere.Offset = 0.25
 	atmosphere.Color = Color3.fromRGB(170, 85, 255)
-	atmosphere.Decay = Color3.fromRGB(104, 112, 124)
+	atmosphere.Decay = Color3.fromRGB(179, 104, 255)
 	atmosphere.Glare = 0
 	atmosphere.Haze = 0
 	atmosphere.Parent = LightingService

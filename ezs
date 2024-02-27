@@ -695,7 +695,7 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "GodSploitBetaSaving.txt"
+local SaveFileName = "GodSploit142Saving.txt"
 
 local function CreateSettingsFile()
 	local DefaultSetting = {Properties = {Value = false}}
@@ -703,6 +703,8 @@ local function CreateSettingsFile()
 	local MetaTable = {__index, DefaultSetting.Properties}
 
 	Settings = {
+		CustomHealthBar = {KeyBind = "..."},
+		CustomInventory = {KeyBind = "..."},
 		NoPlacementCps = {KeyBind = "..."},
 		ChestStealer = {Range = 30, KeyBind = "..."},
 		InfiniteJump = {KeyBind = "..."},
@@ -715,6 +717,7 @@ local function CreateSettingsFile()
 		FpsBooster = {KeyBind = "..."},
 		Indicators = {KeyBind = "..."},
 		AutoReport = {KeyBind = "..."},
+		WinterSky = {KeyBind = "..."},
 		NoNameTag = {KeyBind = "..."},
 		AntiStaff = {Kick = false, KeyBind = "..."},
 		AutoToxic = {KeyBind = "..."},
@@ -2558,7 +2561,7 @@ end)
 
 task.spawn(function()
 	task.spawn(function()
-		if GetQueueType():find("skywars") then
+		if GetQueueType():find("Skywars") then
 			repeat task.wait(1) until not IsAlive(LocalPlayer)
 
 			PlayAgainRemote.joinQueue:FireServer({["queueType"] = GetQueueType()})
@@ -4623,6 +4626,78 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+	local WinterSky, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "WinterSky", Settings.WinterSky.Value, function(CallBack)
+		Settings.WinterSky.Value = CallBack
+
+		if Settings.WinterSky.Value == true then
+			if LightingService:FindFirstChild("Sky") and Settings.WinterSky.Value == true then
+				LightingService.Sky.Parent = ReplicatedStorage
+
+				local Sky = Instance.new("Sky")
+				
+				Sky.StarCount = 5000
+				Sky.SkyboxUp = "rbxassetid://8139676647"
+				Sky.SkyboxLf = "rbxassetid://8139676988"
+				Sky.SkyboxFt = "rbxassetid://8139677111"
+				Sky.SkyboxBk = "rbxassetid://8139677359"
+				Sky.SkyboxDn = "rbxassetid://8139677253"
+				Sky.SkyboxRt = "rbxassetid://8139676842"
+				Sky.SunTextureId = "rbxassetid://6196665106"
+				Sky.SunAngularSize = 11
+				Sky.MoonTextureId = "rbxassetid://8139665943"
+				Sky.MoonAngularSize = 30
+				Sky.Parent = LightingService
+			end
+		end
+
+		if Settings.WinterSky.Value == false then
+			if ReplicatedStorage:FindFirstChild("Sky") and LightingService:FindFirstChild("Sky") and Settings.WinterSky.Value == false then
+				LightingService.Sky:Destroy()
+
+				ReplicatedStorage.Sky.Parent = LightingService 
+			end
+		end
+	end)
+
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateKeyBind(WorldTab, Settings.WinterSky.KeyBind, LayoutOrder + 1, function(CallBack)
+					Settings.WinterSky.KeyBind = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
+
+	task.spawn(function()
+		UserInputService.InputBegan:Connect(function(Input)
+			if not UserInputService:GetFocusedTextBox() then
+				if Input.KeyCode.Name == Settings.WinterSky.KeyBind then
+					Settings.WinterSky.Value = not Settings.WinterSky.Value
+
+					if Settings.WinterSky.Value == true then
+						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
+					end
+
+					if Settings.WinterSky.Value == false then
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+					end
+				end
+			end
+		end)
+	end)
+end)
+
+task.spawn(function()
 	local Indicators, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "Indicators", Settings.Indicators.Value, function(CallBack)
 		Settings.Indicators.Value = CallBack
 
@@ -5272,24 +5347,3 @@ task.spawn(function()
 		setfpscap(999)
 	end)
 end)
-
-	for i,v in next, (LightingService:GetChildren()) do
-		if v:IsA('Atmosphere') or v:IsA('Sky') or v:IsA('PostEffect') then
-			v:Remove()
-		end
-	end
-	
-	local sky = Instance.new('Sky')
-	sky.StarCount = 5000
-	sky.SkyboxUp = 'rbxassetid://8139676647'
-	sky.SkyboxLf = 'rbxassetid://8139676988'
-	sky.SkyboxFt = 'rbxassetid://8139677111'
-	sky.SkyboxBk = 'rbxassetid://8139677359'
-	sky.SkyboxDn = 'rbxassetid://8139677253'
-	sky.SkyboxRt = 'rbxassetid://8139676842'
-	sky.SunTextureId = 'rbxassetid://6196665106'
-	sky.SunAngularSize = 11
-	sky.MoonTextureId = 'rbxassetid://8139665943'
-	sky.MoonAngularSize = 30
-	sky.Parent = LightingService
-	

@@ -4578,6 +4578,27 @@ task.spawn(function()
 				Sky.Name = "GalaxySky"
 			end
 		end
+		
+		if LightingService:FindFirstChild("WinterSky") and Settings.GalaxySky.Value == true then
+			LightingService.WinterSky:Destroy()
+
+			local Sky = Instance.new("Sky")
+
+			Sky.StarCount = 5000
+			Sky.SkyboxUp = "rbxassetid://8139676647"
+			Sky.SkyboxLf = "rbxassetid://8139676988"
+			Sky.SkyboxFt = "rbxassetid://8139677111"
+			Sky.SkyboxBk = "rbxassetid://8139677359"
+			Sky.SkyboxDn = "rbxassetid://8139677253"
+			Sky.SkyboxRt = "rbxassetid://8139676842"
+			Sky.SunTextureId = "rbxassetid://6196665106"
+			Sky.SunAngularSize = 11
+			Sky.MoonTextureId = "rbxassetid://8139665943"
+			Sky.MoonAngularSize = 30
+
+			Sky.Parent = LightingService			
+			Sky.Name = "WinterSky"
+		end
 
 		if Settings.GalaxySky.Value == false then
 			if ReplicatedStorage:FindFirstChild("Sky") and LightingService:FindFirstChild("Sky") and Settings.GalaxySky.Value == false then
@@ -4648,6 +4669,27 @@ task.spawn(function()
 				Sky.MoonTextureId = "rbxassetid://8139665943"
 				Sky.MoonAngularSize = 30
 				
+				Sky.Parent = LightingService			
+				Sky.Name = "WinterSky"
+			end
+			
+			if LightingService:FindFirstChild("GalaxySky") and Settings.WinterSky.Value == true then
+				LightingService.GalaxySky:Destroy()
+
+				local Sky = Instance.new("Sky")
+
+				Sky.StarCount = 5000
+				Sky.SkyboxUp = "rbxassetid://8139676647"
+				Sky.SkyboxLf = "rbxassetid://8139676988"
+				Sky.SkyboxFt = "rbxassetid://8139677111"
+				Sky.SkyboxBk = "rbxassetid://8139677359"
+				Sky.SkyboxDn = "rbxassetid://8139677253"
+				Sky.SkyboxRt = "rbxassetid://8139676842"
+				Sky.SunTextureId = "rbxassetid://6196665106"
+				Sky.SunAngularSize = 11
+				Sky.MoonTextureId = "rbxassetid://8139665943"
+				Sky.MoonAngularSize = 30
+
 				Sky.Parent = LightingService			
 				Sky.Name = "WinterSky"
 			end

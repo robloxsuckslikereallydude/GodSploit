@@ -4583,26 +4583,22 @@ task.spawn(function()
 			LightingService.WinterSky:Destroy()
 
 			local Sky = Instance.new("Sky")
+			local ID = 8281961896
 
-			Sky.StarCount = 5000
-			Sky.SkyboxUp = "rbxassetid://8139676647"
-			Sky.SkyboxLf = "rbxassetid://8139676988"
-			Sky.SkyboxFt = "rbxassetid://8139677111"
-			Sky.SkyboxBk = "rbxassetid://8139677359"
-			Sky.SkyboxDn = "rbxassetid://8139677253"
-			Sky.SkyboxRt = "rbxassetid://8139676842"
-			Sky.SunTextureId = "rbxassetid://6196665106"
-			Sky.SunAngularSize = 11
-			Sky.MoonTextureId = "rbxassetid://8139665943"
-			Sky.MoonAngularSize = 30
+			Sky.SkyboxBk = "http://www.roblox.com/asset/?id=" .. ID
+			Sky.SkyboxDn = "http://www.roblox.com/asset/?id=" .. ID
+			Sky.SkyboxFt = "http://www.roblox.com/asset/?id=" .. ID
+			Sky.SkyboxLf = "http://www.roblox.com/asset/?id=" .. ID
+			Sky.SkyboxRt = "http://www.roblox.com/asset/?id=" .. ID
+			Sky.SkyboxUp = "http://www.roblox.com/asset/?id=" .. ID
 
-			Sky.Parent = LightingService			
-			Sky.Name = "WinterSky"
+			Sky.Parent = LightingService
+			Sky.Name = "GalaxySky"
 		end
 
 		if Settings.GalaxySky.Value == false then
-			if ReplicatedStorage:FindFirstChild("Sky") and LightingService:FindFirstChild("Sky") and Settings.GalaxySky.Value == false then
-				LightingService.Sky:Destroy()
+			if ReplicatedStorage:FindFirstChild("Sky") and LightingService:FindFirstChild("GalaxySky") and Settings.GalaxySky.Value == false then
+				LightingService.GalaxySky:Destroy()
 
 				ReplicatedStorage.Sky.Parent = LightingService 
 			end
@@ -4696,8 +4692,8 @@ task.spawn(function()
 		end
 
 		if Settings.WinterSky.Value == false then
-			if ReplicatedStorage:FindFirstChild("Sky") and LightingService:FindFirstChild("Sky") and Settings.WinterSky.Value == false then
-				LightingService.Sky:Destroy()
+			if ReplicatedStorage:FindFirstChild("Sky") and LightingService:FindFirstChild("WinterSky") and Settings.WinterSky.Value == false then
+				LightingService.WinterSky:Destroy()
 
 				ReplicatedStorage.Sky.Parent = LightingService 
 			end

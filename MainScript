@@ -1,4 +1,4 @@
-local Owner = "IDontUseAura11"
+local Owner = "fsdf43t346"
 
 local LocalPlayer = game.Players.LocalPlayer
 
@@ -3019,6 +3019,68 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+	local Aimbot, DropDownButton, LayoutOrder, UIGradient = CreateToggle(CombatTab, "Aimbot", Settings.Aimbot.Value, function(CallBack)
+		Settings.Aimbot.Value = CallBack
+	end)
+
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateKeyBind(CombatTab, Settings.Aimbot.KeyBind, LayoutOrder + 1, function(CallBack)
+					Settings.Aimbot.KeyBind = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
+
+	task.spawn(function()
+		UserInputService.InputBegan:Connect(function(Input)
+			if not UserInputService:GetFocusedTextBox() then
+				if Input.KeyCode.Name == Settings.Aimbot.KeyBind then
+					Settings.Aimbot.Value = not Settings.Aimbot.Value
+
+					if Settings.Aimbot.Value == true then
+						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
+					end
+
+					if Settings.Aimbot.Value == false then
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+					end
+				end
+			end
+		end)
+	end)
+
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateMiniToggle(BlatantTab, "ToolCheck", Settings.Aimbot.ToolCheck, LayoutOrder + 2, function(CallBack)
+					Settings.Aimbot.ToolCheck = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
+end)
+
+task.spawn(function()
 	local Reach, DropDownButton, LayoutOrder, UIGradient = CreateToggle(CombatTab, "Reach", Settings.Reach.Value, function(CallBack)
 		Settings.Reach.Value = CallBack
 
@@ -3559,68 +3621,6 @@ task.spawn(function()
 			if Value == true then
 				InstanceUI = CreateSlider(BlatantTab, "ExpandDistance", Settings.Scaffold.ExpandDistance, 4, LayoutOrder + 2, function(CallBack)
 					Settings.Scaffold.ExpandDistance = CallBack
-				end)
-			end
-
-			if Value == false then
-				InstanceUI:Destroy()
-			end
-		end)
-	end)
-end)
-
-task.spawn(function()
-	local Aimbot, DropDownButton, LayoutOrder, UIGradient = CreateToggle(BlatantTab, "Aimbot", Settings.Aimbot.Value, function(CallBack)
-		Settings.Aimbot.Value = CallBack
-	end)
-
-	task.spawn(function()
-		local InstanceUI
-		local Value = false
-
-		DropDownButton.Activated:Connect(function()
-			Value = not Value
-
-			if Value == true then
-				InstanceUI = CreateKeyBind(BlatantTab, Settings.Aimbot.KeyBind, LayoutOrder + 1, function(CallBack)
-					Settings.Aimbot.KeyBind = CallBack
-				end)
-			end
-
-			if Value == false then
-				InstanceUI:Destroy()
-			end
-		end)
-	end)
-
-	task.spawn(function()
-		UserInputService.InputBegan:Connect(function(Input)
-			if not UserInputService:GetFocusedTextBox() then
-				if Input.KeyCode.Name == Settings.Aimbot.KeyBind then
-					Settings.Aimbot.Value = not Settings.Aimbot.Value
-
-					if Settings.Aimbot.Value == true then
-						UIGradient.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 0.666667, 0)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 0.803922, 0.411765))}
-					end
-
-					if Settings.Aimbot.Value == false then
-						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
-					end
-				end
-			end
-		end)
-	end)
-
-	task.spawn(function()
-		local InstanceUI
-		local Value = false
-
-		DropDownButton.Activated:Connect(function()
-			Value = not Value
-
-			if Value == true then
-				InstanceUI = CreateMiniToggle(BlatantTab, "ToolCheck", Settings.Aimbot.ToolCheck, LayoutOrder + 2, function(CallBack)
-					Settings.Aimbot.ToolCheck = CallBack
 				end)
 			end
 
@@ -4760,6 +4760,7 @@ task.spawn(function()
 			LightingService.WinterSky:Destroy()
 
 			local Sky = Instance.new("Sky")
+			
 			local ID = 8281961896
 
 			Sky.SkyboxBk = "http://www.roblox.com/asset/?id=" .. ID
@@ -4865,6 +4866,74 @@ task.spawn(function()
 
 				Sky.Parent = LightingService
 				Sky.Name = "WinterSky"
+				
+				task.spawn(function()
+					if LightingService:FindFirstChildOfClass("SunRaysEffect") then
+						LightingService:FindFirstChildOfClass("SunRaysEffect"):Destroy()
+
+						local SunRay = Instance.new("SunRaysEffect")
+
+						SunRay.Intensity = 0.03
+						SunRay.Parent = LightingService
+					end
+
+					if not LightingService:FindFirstChildOfClass("SunRaysEffect") then
+						local SunRay = Instance.new("SunRaysEffect")
+
+						SunRay.Intensity = 0.03
+						SunRay.Parent = LightingService
+					end
+				end)
+
+				task.spawn(function()
+					if LightingService:FindFirstChildOfClass("BloomEffect") then
+						LightingService:FindFirstChildOfClass("BloomEffect"):Destroy()
+
+						local Bloom = Instance.new("BloomEffect")
+
+						Bloom.Threshold = 2
+						Bloom.Intensity = 1
+						Bloom.Size = 2
+						Bloom.Parent = LightingService
+					end
+
+					if not LightingService:FindFirstChildOfClass("BloomEffect") then
+						local Bloom = Instance.new("BloomEffect")
+
+						Bloom.Threshold = 2
+						Bloom.Intensity = 1
+						Bloom.Size = 2
+						Bloom.Parent = LightingService
+					end
+				end)
+
+				task.spawn(function()
+					if LightingService:FindFirstChildOfClass("Atmosphere") then
+						LightingService:FindFirstChildOfClass("Atmosphere"):Destroy()
+
+						local Atmosphere = Instance.new("Atmosphere")
+
+						Atmosphere.Density = 0.3
+						Atmosphere.Offset = 0.25
+						Atmosphere.Color = Color3.new(0.776471, 0.776471, 0.776471)
+						Atmosphere.Decay = Color3.new(0.407843, 0.439216, 0.486275)
+						Atmosphere.Glare = 0
+						Atmosphere.Haze = 0
+						Atmosphere.Parent = LightingService
+					end
+
+					if not LightingService:FindFirstChildOfClass("Atmosphere") then
+						local Atmosphere = Instance.new("Atmosphere")
+
+						Atmosphere.Density = 0.3
+						Atmosphere.Offset = 0.25
+						Atmosphere.Color = Color3.new(0.776471, 0.776471, 0.776471)
+						Atmosphere.Decay = Color3.new(0.407843, 0.439216, 0.486275)
+						Atmosphere.Glare = 0
+						Atmosphere.Haze = 0
+						Atmosphere.Parent = LightingService
+					end
+				end)
 			end
 		end
 

@@ -3019,7 +3019,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-	local Aimbot, DropDownButton, LayoutOrder, UIGradient = CreateToggle(WorldTab, "Aimbot", Settings.Aimbot.Value, function(CallBack)
+	local Aimbot, DropDownButton, LayoutOrder, UIGradient = CreateToggle(CombatTab, "Aimbot", Settings.Aimbot.Value, function(CallBack)
 		Settings.Aimbot.Value = CallBack
 	end)
 
@@ -3031,7 +3031,7 @@ task.spawn(function()
 			Value = not Value
 
 			if Value == true then
-				InstanceUI = CreateKeyBind(WorldTab, Settings.Aimbot.KeyBind, LayoutOrder + 1, function(CallBack)
+				InstanceUI = CreateKeyBind(CombatTab, Settings.Aimbot.KeyBind, LayoutOrder + 1, function(CallBack)
 					Settings.Aimbot.KeyBind = CallBack
 				end)
 			end
